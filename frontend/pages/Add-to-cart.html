@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Add to Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/ui-refresh.css">
+
+  <style>
+    *{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:#111;line-height:1.5}
+.container{max-width:var(--container);margin:0 auto;padding:0 20px}
+
+/* topbar */
+.topbar{background:#0d8a4a;color:#041d03;font-size:14px}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+
+    :root{--accent:#2b8a3e;--muted:#666}
+    body{font-family:Inter, system-ui, Arial; margin:0; background:#022c02}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:#f7f8f7;border-bottom:1px solid #eee}
+    h1{margin:0;font-size:18px}
+    .container{max-width:1100px;margin:10px auto;padding:0 16px}
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .card{background:#fff;border-radius:10px;padding:14px;border:1px solid #eee;box-shadow:0 6px 18px rgba(155, 36, 36, 0.03)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .card h3{margin:10px 0 6px;font-size:16px}
+    .price{font-weight:700;color:var(--accent)}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;background:var(--accent);color:#fff}
+    .btn.secondary{background:#eee;color:#333}
+
+    /* Cart UI */
+    .cart-toggle{position:relative}
+    .cart-bubble{position:absolute;right:-10px;top:-10px;background:#ff4d4f;color:#fff;border-radius:999px;padding:4px 7px;font-size:12px}
+    .cart-drawer{position:fixed;right:18px;top:70px;width:340px;max-height:70vh;background:#fff;border-radius:12px;border:1px solid #e7e7e7;padding:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow:auto}
+    .cart-item{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #eee}
+    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:6px}
+    .qty{display:flex;align-items:center;gap:6px}
+    .qty button{padding:6px 8px;border-radius:6px;border:1px solid #ddd;background:#fafafa}
+    .cart-footer{padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+
+    /* Responsive */
+        @media (max-width:600px){.cart-drawer{right:8px;width:90vw}}
+     </style>
+     <link rel="stylesheet" href="../css/theme.css">
+    
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body class="page-cart">
+     <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+        <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+  <header>
+    <h1>Smart Farm Shop</h1>
+    <div>
+      <button id="view-cart" class="btn cart-toggle">Cart 🛒 <span id="cart-count" class="cart-bubble" style="display:none">0</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="cart-intro">
+      <div class="badge">Fresh selection / 10 items</div>
+      <h2>Build your<br>harvest box.</h2>
+      <p>Pick what you need today. Your cart stays saved while you explore.</p>
+    </section>
+    <section class="products" id="products"></section>
+  </main>
+
+  <!-- Cart drawer (hidden until items added) -->
+  <div id="cart-drawer" class="cart-drawer" style="display:none">
+    <h3 style="margin:6px 0">Your Cart</h3>
+    <div id="cart-items"></div>
+    <div class="cart-footer">
+      <div>
+        <div style="font-weight:700">Total: <span id="cart-total">₹0.00</span></div>
+        <div style="font-size:12px;color:var(--muted)">Taxes and shipping not included</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button id="checkout" class="btn">Checkout</button>
+        <button id="clear-cart" class="btn secondary">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample product data (you can replace / fetch from server)
+    const products = [
+      {id:1,name:'Wheat (1 kg)',price:25,image:'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80'},
+      {id:2,name:'Rice (1 kg)',price:35,image:'https://static.vecteezy.com/system/resources/previews/003/115/104/non_2x/asian-rice-in-wooden-spoon-free-photo.jpg'},
+      {id:3,name:'Green Chilli (1 kg)',price:150,image:'https://cdn.webshopapp.com/shops/301900/files/367703236/green-chilli-100gr.jpg'},
+      {id:4,name:'Pulses (1 kg)',price:100,image:'https://www.shutterstock.com/image-photo/multi-color-pulses-background-260nw-341046509.jpg'},
+      {id:5,name:'Green Peas (1 kg)',price:45,image:'https://wallup.net/wp-content/uploads/2019/09/6604-fresh-green-peas.jpg'},
+       {id:6,name:'Organic Apples (1 kg)',price:120,image:'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=800&q=60'},
+      {id:7,name:'Banana (1 kg)',price:40,image:'https://www.rainforest-alliance.org/wp-content/uploads/2021/06/bananas-1-e1624909301641.jpg.optimal.jpg'},
+      {id:8,name:'Strawberries (1 kg)',price:150,image:'https://th.bing.com/th/id/R.879a263fc43d2a511368c8262254edef?rik=%2bYlazC3829Ef%2bw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-kh8TANGkcBE%2fUN-3KrCPeHI%2fAAAAAAAABf8%2fdu-bqzL13As%2fs1600%2fStrawberries%2b2.jpg&ehk=H%2bLpgrsypUyejRxhCpXqN%2f%2br59gSzm%2ffL3l4xdbeJd0%3d&risl=&pid=ImgRaw&r=0'},
+      {id:9,name:'Mango(1 kg)',price:50,image:'https://media.easemytrip.com/media/Blog/India/636963790834862178/636963790834862178a7YxVj.jpg'},
+      {id:10,name:'Dry Fruits (1 kg)',price:205,image:'https://tse1.explicit.bing.net/th/id/OIP.hcGPC30dm-5rlZWtFccO3QHaE8?rs=1&pid=ImgDetMain&o=7&rm=3'},
+    ];
+
+    // Cart state
+    let cart = {} // {productId: { ...product, qty }}
+
+    // DOM refs
+    const productsEl = document.getElementById('products');
+    const cartCount = document.getElementById('cart-count');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const viewCartBtn = document.getElementById('view-cart');
+    const checkoutBtn = document.getElementById('checkout');
+    const clearBtn = document.getElementById('clear-cart');
+
+    // Render products
+    function renderProducts(){
+      productsEl.innerHTML = '';
+      products.forEach(p => {
+        const card = document.createElement('div'); card.className='card';
+        card.innerHTML = `
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <div class="price">₹${p.price.toFixed(2)}</div>
+          <div style="margin-top:10px">
+            <button class="btn" data-id="${p.id}">Add to Cart</button>
+          </div>
+        `;
+        productsEl.appendChild(card);
+      });
+
+      // attach listeners
+      document.querySelectorAll('.card .btn').forEach(b => b.addEventListener('click', (e)=>{
+        const id = Number(e.currentTarget.dataset.id);
+        addToCart(id);
+      }));
+    }
+
+    // Add to cart
+    function addToCart(id){
+      const product = products.find(p=>p.id===id);
+      if(!product) return;
+      if(cart[id]) cart[id].qty += 1; else cart[id] = {...product, qty:1};
+      saveCart();
+      updateCartUI();
+      showCart();
+    }
+
+    function increaseQty(id){ cart[id].qty += 1; saveCart(); updateCartUI(); }
+    function decreaseQty(id){ cart[id].qty -= 1; if(cart[id].qty<=0) delete cart[id]; saveCart(); updateCartUI(); }
+    function removeItem(id){ delete cart[id]; saveCart(); updateCartUI(); }
+
+    function updateCartUI(){
+      const items = Object.values(cart);
+      // count bubble
+      const totalQty = items.reduce((s,i)=>s+i.qty,0);
+      if(totalQty>0){ cartCount.style.display='inline-block'; cartCount.textContent = totalQty; } else { cartCount.style.display='none'; }
+
+      // items list
+      cartItemsEl.innerHTML = items.length === 0 ? '<div style="padding:12px;color:var(--muted)">Cart is empty.</div>' : '';
+      items.forEach(item=>{
+        const node = document.createElement('div'); node.className='cart-item';
+        node.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div style="flex:1">
+            <div style="font-weight:600">${item.name}</div>
+            <div style="font-size:14px;color:var(--muted)">₹${item.price.toFixed(2)} × ${item.qty} = ₹${(item.price*item.qty).toFixed(2)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+            <div class="qty">
+              <button data-action="dec" data-id="${item.id}">−</button>
+              <div style="min-width:22px;text-align:center">${item.qty}</div>
+              <button data-action="inc" data-id="${item.id}">+</button>
+            </div>
+            <button data-action="remove" data-id="${item.id}" style="font-size:12px;border:0;background:none;color:#c33;cursor:pointer">Remove</button>
+          </div>
+        `;
+        cartItemsEl.appendChild(node);
+      });
+
+      // attach listeners for qty and remove
+      cartItemsEl.querySelectorAll('[data-action]').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const id = Number(e.currentTarget.dataset.id);
+          const action = e.currentTarget.dataset.action;
+          if(action==='inc') increaseQty(id);
+          if(action==='dec') decreaseQty(id);
+          if(action==='remove') removeItem(id);
+        });
+      });
+
+      // total
+      const total = items.reduce((s,i)=>s + i.price*i.qty, 0);
+      cartTotalEl.textContent = `₹${total.toFixed(2)}`;
+    }
+
+    function showCart(){ cartDrawer.style.display='block'; cartDrawer.scrollIntoView({behavior:'smooth', block:'center'}); }
+    function hideCart(){ cartDrawer.style.display='none'; }
+
+    // persistence
+    function saveCart(){
+      const items = Object.values(cart);
+      localStorage.setItem('demo_cart', JSON.stringify(cart));
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+    function loadCart(){
+      const raw = localStorage.getItem('demo_cart') || localStorage.getItem('cart');
+      if(!raw) return;
+      try{
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed)){
+          parsed.forEach(item => { cart[item.id || item.name] = item; });
+        } else {
+          cart = parsed;
+        }
+      }catch(e){ cart = {}; }
+      saveCart();
+    }
+
+    // Clear
+    clearBtn.addEventListener('click', ()=>{ if(confirm('Clear cart?')){ cart = {}; saveCart(); updateCartUI(); hideCart(); } });
+
+    // Checkout demo
+    checkoutBtn.addEventListener('click', ()=>{
+      const items = Object.values(cart);
+      if(items.length===0){ alert('Cart is empty'); return; }
+      localStorage.setItem('order_draft', JSON.stringify({
+        product: items[0].name,
+        qty: items[0].qty || 1
+      }));
+      window.location.href = '../pages/orders-dashboard.html';
+    });
+
+    // toggle cart on button
+    viewCartBtn.addEventListener('click', ()=>{ if(cartDrawer.style.display==='none') showCart(); else hideCart(); });
+
+    // init
+    loadCart(); renderProducts(); updateCartUI();
+
+    // expose for debugging (optional)
+    window._cart = cart;
+  </script>
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en,hi,',
+      includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>

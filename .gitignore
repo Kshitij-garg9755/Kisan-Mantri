@@ -1,0 +1,27 @@
+.env
+.env.*
+!.env.example
+.local-dev/
+smart_farm.db*
+farmers.json
+agriverse_uploads/
+ar_measure_outputs/
+__pycache__/
+*.py[cod]
+smart_farm_server*.log
+farm-product-check.png
+phone-*.png
+weather-map-*.png
+_preview-home.png
+_qa_*
+*.tldr
+node_modules/
+android/.gradle/
+android/build/
+android/app/build/
+android/app/google-services.json
+.local-dev/firebase-admin.json
+from flask import *.txt
+
+.vs/
+.railway/

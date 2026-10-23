@@ -1,0 +1,112 @@
+/* Satellite AI — feature-specific styles */
+
+.sat-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+.sat-main {
+  min-width: 0;
+}
+.sat-side {
+  position: sticky;
+  top: 86px;
+}
+
+.sat-map-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.sat-map-controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.sat-map-controls label {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 700;
+}
+
+.sat-map {
+  height: 420px;
+  width: 100%;
+  border-radius: var(--sf-radius);
+  border: 1px solid var(--sf-line);
+  background: #e7eee3;
+}
+
+.sat-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.sat-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0efe9;
+  font-size: 13px;
+}
+.sat-stat:last-child {
+  border-bottom: 0;
+}
+.sat-stat strong {
+  color: var(--sf-green);
+}
+
+.sat-layer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0efe9;
+  font-size: 13px;
+}
+.sat-layer-row:last-child {
+  border-bottom: 0;
+}
+
+.sat-field-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0efe9;
+  font-size: 12px;
+  align-items: flex-start;
+}
+.sat-field-item .sat-field-body {
+  flex: 1;
+  min-width: 0;
+}
+.sat-field-item strong {
+  display: block;
+  font-size: 13px;
+}
+
+@media (max-width: 980px) {
+  .sat-layout {
+    grid-template-columns: 1fr;
+  }
+  .sat-side {
+    position: static;
+  }
+}
+@media (max-width: 700px) {
+  .sat-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .sat-map {
+    height: 320px;
+  }
+}

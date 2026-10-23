@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Products Dashboard - SMART FARM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/products.css">
+  <link rel="stylesheet" href="../css/kk.css">
+  <link rel="stylesheet" href="../css/google.css">
+  <link rel="stylesheet" href="../css/ui-refresh.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+    .dash-tools{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 0}
+    .dash-tools input{padding:10px 12px;border:1px solid #ddd;border-radius:8px;min-width:220px}
+    table.dash{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    table.dash th,table.dash td{padding:12px 14px;text-align:left;border-bottom:1px solid #eee}
+    table.dash th{background:#f6faf7;cursor:pointer;user-select:none}
+    table.dash tr:hover td{background:#fafafa}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+    .pill.ok{background:#e8f7ee;color:#1f6b40}
+    .pill.low{background:#fff4e5;color:#8a5a1f}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .grid .product-card p{margin:6px 0 0 0;color:var(--muted)}
+    @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  </style>
+
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body class="page-products">
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+      <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <h1>SMART FARM</h1>
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../marketplace/marketplace.html">Farmer Marketplace</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+       
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h4 class="badge">Dashboard</h4>
+      <h1>All Products Sales & Inventory</h1>
+      <p class="hero-sub">Track sales performance across grains, vegetables, and pulses.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h3 class="section-title">Highlights</h3>
+    <div class="grid">
+      <div class="product-card">
+        <img src="https://thvnext.bing.com/th/id/OIP.DgQBiw_bjdp-uPeWKyGZRwHaHa?w=177&h=180&c=7&r=0&o=7&cb=ucfimg2&pid=1.7&rm=3&ucfimg=1" alt="Wheat">
+        <h4>Wheat</h4>
+        <p>Monthly: 820 units</p>
+        <div class="price">₹1200</div>
+      <a href="../pages/Add-to-cart.html" class="btn btn-primary">View</a>
+      </div>
+      <div class="product-card">
+        <img src="https://static.vecteezy.com/system/resources/previews/037/349/469/non_2x/ai-generated-a-handful-of-long-grain-white-rice-spills-out-on-the-wooden-table-food-light-natural-colors-high-quality-ai-generative-photo.jpg" alt="Rice">
+        <h4>Rice</h4>
+        <p>Monthly: 640 units</p>
+        <div class="price">₹860</div>
+      <a href="../pages/Add-to-cart.html" class="btn btn-primary">View</a>
+      </div>
+      <div class="product-card">
+        <img src="https://tse1.explicit.bing.net/th/id/OIP.YOOwWCpgcKTZpGQGPPfjCAHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Tomato">
+        <h4>Tomato</h4>
+        <p>Monthly: 980 units</p>
+        <div class="price">₹40/kg</div>
+      <a href="../pages/Add-to-cart.html" class="btn btn-primary">View</a>
+      </div>
+      <div class="product-card">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.WyHmHyPfad_xM8OE6knUDQHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Green Peas">
+        <h4>Green Peas</h4>
+        <p>Monthly: 420 units</p>
+        <div class="price">₹95/kg</div>
+      <a href="../pages/Add-to-cart.html" class="btn btn-primary">View</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding-top:10px;">
+    <h3 class="section-title">Products Sales Table</h3>
+    <div class="dash-tools">
+      <input id="prod-search" type="search" placeholder="Search products..." />
+      <div style="color:var(--muted)">Click headers to sort</div>
+    </div>
+    <div style="overflow:auto">
+      <table class="dash" id="prod-table">
+        <thead>
+          <tr>
+            <th data-key="name">Product</th>
+            <th data-key="category">Category</th>
+            <th data-key="price">Price</th>
+            <th data-key="units">Monthly Units</th>
+            <th data-key="revenue">Revenue (₹)</th>
+            <th data-key="stock">Stock</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="newsletter">
+      <h3>Need more details?</h3>
+      <p>Explore the home page for full catalog and offers.</p>
+      <a class="btn btn-primary" href="../pages/index.html#home">Back to Home</a>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+       includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="../js/app-navigation.js"></script>
+  <script>
+  (async function(){
+  // API से products data fetch करो
+  const res = await fetch('/api/products');
+  const data = await res.json();
+
+  function computeRevenue(item){ return item.price * item.units; }
+
+  function renderRows(rows){
+    var tbody = document.querySelector('#prod-table tbody');
+    tbody.innerHTML = '';
+    rows.forEach(function(item){
+      var tr = document.createElement('tr');
+      var revenue = computeRevenue(item);
+      tr.innerHTML = ''+
+        '<td>'+item.name+'</td>'+
+        '<td>'+item.category+'</td>'+
+        '<td>'+(item.category==='Grain'?'₹'+item.price.toLocaleString('en-IN'):'₹'+item.price.toLocaleString('en-IN')+'/kg')+'</td>'+
+        '<td>'+item.units.toLocaleString('en-IN')+'</td>'+
+        '<td>₹'+revenue.toLocaleString('en-IN')+'</td>'+
+        '<td>'+(item.stock === 'In Stock' ? '<span class="pill ok">In Stock</span>' : '<span class="pill low">Low</span>')+'</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function sortBy(key, asc){
+    var arr = data.slice();
+    arr.sort(function(a,b){
+      var va = key==='revenue'? a.price*a.units : a[key];
+      var vb = key==='revenue'? b.price*b.units : b[key];
+      if(typeof va === 'string'){ va = va.toLowerCase(); vb = vb.toLowerCase(); }
+      if(va < vb) return asc? -1: 1;
+      if(va > vb) return asc? 1: -1;
+      return 0;
+    });
+    return arr;
+  }
+
+  var currentKey = 'units';
+  var ascending = false;
+
+  function apply(){
+    var sorted = sortBy(currentKey, ascending);
+    var q = (document.getElementById('prod-search').value || '').toLowerCase();
+    if(q){ sorted = sorted.filter(function(i){ return (i.name + ' ' + i.category).toLowerCase().indexOf(q) !== -1; }); }
+    renderRows(sorted);
+  }
+
+  document.getElementById('prod-search').addEventListener('input', function(){ apply(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('#prod-table thead th'), function(th){
+    th.addEventListener('click', function(){
+      var key = th.getAttribute('data-key');
+      if(key === currentKey){ ascending = !ascending; } else { currentKey = key; ascending = true; }
+      apply();
+    });
+  });
+
+  apply();
+})();
+
+
+
+  </script>
+
+  <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        includedLanguages: "aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu'",
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      "google_translate_element"
+    );
+  }
+</script>
+   <script type="module">
+       import '../js/dev-config.js';
+       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+      createChat({
+        webhookUrl: window.SMART_FARM_DEV_CONFIG.n8nUrl('webhook/96703a83-b23d-4a2b-9476-fa62cffd91d5/chat')
+      });
+    </script>
+   <link href="../css/chat.css" rel="stylesheet" /> 
+    <script type="module" src="../js/script.js"></script>
+     <script src="../js/script.js"></script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>
+
+

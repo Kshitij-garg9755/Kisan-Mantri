@@ -1,0 +1,246 @@
+:root{
+  --green: #1f8f4a;
+  --green-dark: #19693b;
+  --bg: #fbfbfb;
+  --card: #ffffff;
+  --muted: #7b7b7b;
+  --container: 1100px;
+  --radius: 14px;
+  --shadow: 0 6px 20px rgba(17,17,17,0.08);
+  font-family: 'Montserrat', sans-serif;
+}
+
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:#111;line-height:1.5}
+.container{max-width:var(--container);margin:0 auto;padding:0 20px}
+
+/* topbar */
+.topbar{background:#0d8a4a;color:#fff;font-size:14px}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+
+/* header */
+.site-header{background:transparent;position:sticky;top:0;z-index:30}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo img{height:100px;}
+.nav{display:flex;gap:18px}
+.nav a{color:#1c1c1c;text-decoration:none;font-weight:600}
+.cta .btn{padding:8px 14px;border-radius:999px;}
+
+/* buttons */
+.btn{display:inline-block;padding:12px 20px;border-radius:10px;border:none;cursor:pointer;font-weight:600;text-decoration:none}
+.btn-primary{background:var(--green);color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--green);color:var(--green)}
+.btn.small{padding:8px 12px;font-size:14px}
+
+/* hero */
+.hero{position:relative;min-height:600px;display:flex;align-items:center}
+.hero-bg{position:absolute;inset:0;background-image:url('../assets/images/background1.jpg');background-size:cover;background-position:center;filter:brightness(.6)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(16,34,11,0.25), rgba(255,255,255,0.02))}
+.hero-content{position:relative;color:#fff;padding:80px 0;max-width:900px}
+.hero .badge{background:rgba(255,255,255,0.1);display:inline-block;padding:6px 12px;border-radius:20px;color:#e8f7ee;font-weight:600;margin-bottom:10px}
+.hero h1{font-family:'Playfair Display', serif;font-size:56px;margin:8px 0;line-height:1.02}
+.hero-sub{color:rgba(255,255,255,0.9);margin-bottom:20px}
+
+/* hero cards */
+.hero-cards{display:flex;gap:18px;margin-top:34px;flex-wrap:wrap}
+.hc{
+  background:rgba(255,255,255,0.95);
+  color:#0b0b0b;
+  padding:16px 18px;
+  border-radius:14px;
+  min-width:220px;
+  box-shadow:var(--shadow);
+  text-align:left;
+  border:1px solid rgba(255,255,255,0.6);
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.hc strong{display:block;margin-top:2px;font-weight:800;font-size:16px;letter-spacing:-.2px}
+.hc span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.hc:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(2,6,23,0.18);background:#ffffff}
+
+/* products */
+.products{padding:60px 20px 40px;text-align:center}
+.section-title{font-size:28px;margin-bottom:26px;font-weight:700}
+.product-row{display:flex;flex-wrap:wrap;justify-content:center;gap:28px}
+.product{width:120px;text-align:center}
+.product img{width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow);display:block;margin:0 auto 8px}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;padding:60px 20px}
+.about-image img{width:100%;border-radius:18px;box-shadow:var(--shadow)}
+.about-right h2{font-size:34px;margin:6px 0}
+.muted{color:var(--muted);font-weight:600}
+
+/* tiles */
+.tiles{display:flex;gap:18px;margin:40px 20px}
+.tile{flex:1;padding:36px;border-radius:12px;background:linear-gradient(135deg,#effaf0,#ffffff);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between}
+.tile-2{background:linear-gradient(135deg,#efe9e0,#ffffff)}
+.tile-3{background:linear-gradient(135deg,#f3f6f7,#ffffff)}
+
+/* footer */
+.site-footer{background:#0f1a12;color:#e6efe9;padding:28px 0;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+
+/* responsive */
+@media (max-width:900px){
+  .hero h1{font-size:40px}
+  .about{grid-template-columns:1fr}
+  .hero-cards{flex-direction:column;align-items:stretch}
+  .nav{display:none}
+  .tiles{flex-direction:column}
+  .footer-inner{flex-direction:column;gap:12px}
+}
+ :root{
+      --bg: #0f1720;
+      --card-radius: 18px;
+      --gap: 26px;
+    }
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      position:relative;
+    }
+
+    /* background decorative row like image crates */
+    .bg-strip{
+      position:absolute;
+      left:0; right:0;
+      bottom:-40px;
+      height:140px;
+      background-image: url('https://cdn.britannica.com/17/196817-159-9E487F15/vegetables.jpg'); /* decorative */
+      background-size:cover;
+      background-position:center;
+      opacity:0.25;
+      filter:blur(2px);
+      border-radius: 14px;
+      z-index:0;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:var(--gap);
+      position:relative;
+      z-index:1;
+      align-items:stretch;
+    }
+
+    /* single card */
+    .card{
+      height:200px;
+      border-radius:var(--card-radius);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:center;
+      padding:28px;
+      color: #0a0a0a;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+      cursor:pointer;
+      isolation:isolate;
+      background-size:cover;
+      background-position:center;
+    }
+    .card:hover{ transform: translateY(-8px); box-shadow:0 20px 60px rgba(2,6,23,0.65); }
+
+    /* overlay to darken or color */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      mix-blend-mode: multiply;
+      opacity:0.85;
+      transition: opacity .28s;
+    }
+    .card:hover::before{ opacity:0.7; }
+
+    /* content inside */
+    .card-content{
+      position:relative;
+      z-index:2;
+      width:60%;
+      
+    }
+    .small{
+      font-size:12px;
+      /* text-transform:uppercase; */
+      letter-spacing:1.6px;
+      opacity:0.9;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    .title{
+      font-size:28px;
+      line-height:1.05;
+      margin:0 0 14px 0;
+      font-weight:700;
+      letter-spacing: -0.4px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.95);
+      color:#0b0b0b;
+      font-weight:700;
+      font-size:14px;
+      border:none;
+      text-decoration:none;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.25);
+      transition: transform .18s, box-shadow .18s;
+    }
+    .btn:hover{ transform:translateY(-3px); box-shadow:0 16px 36px rgba(2,6,23,0.28); }
+
+    /* decorative vegetable images on right side of each card */
+    .card-visual{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      width:46%;
+      height:120%;
+      pointer-events:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1;
+      opacity:0.98;
+     
+    }
+    .card-visual img{
+      max-width:200%;
+      max-height:200%;
+      /* object-fit:contain; */
+      /* transform-origin:center right; */
+      filter: drop-shadow(0 10px 22px rgba(2,6,23,0.6));
+      
+    }
+
+    /* variants */
+    .green{ background: linear-gradient(135deg,#3fb334 0%, #2b8a2b 60%); }
+    .brown{ background: linear-gradient(135deg,#a86f4e 0%, #7f5a43 60%); }
+    .charcoal{ background: linear-gradient(135deg,#2f2f32 0%, #202226 60%); }
+
+    /* subtle texture or pattern */
+    .charcoal::before{ background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02), transparent 6%), linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06)); }
+    .green::before{ background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.18)); }
+    .brown::before{ background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.18)); }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .cards{ grid-template-columns: 1fr; }
+      .card{ height:220px; padding:22px; }
+      .card-content{ width:58%; }
+      .card-visual{ width:50%; right:10px; }
+    }
+    @media (max-width:420px){
+      body{ padding:18px 12px; }
+      .card{ padding:16px; border-radius:14px; height:200px; }
+      .title{ font-size:22px; }
+      .card-content{ width:62%; }
+    }
+

@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Satellite AI | Smart Farm</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="anonymous" />
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+       <link rel="stylesheet" href="../shared/feature.css" />
+       <link rel="stylesheet" href="satellite-ai.css" />
+       <link rel="stylesheet" href="../../css/theme.css" />
+    
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+  <body class="sf-feature">
+    <div class="sf-topbar">
+      <div class="sf-shell">
+        <div>SMART FARM / SATELLITE AI</div>
+        <div>Field monitoring • Crop health</div>
+      </div>
+    </div>
+
+    <header class="sf-header">
+      <div class="sf-shell">
+        <a class="sf-brand" href="../../pages/index.html"
+          ><strong>Smart Farm</strong><span>Satellite AI</span></a
+        >
+        <nav class="sf-nav">
+          <a href="../schemes/schemes.html">योजनाएं</a>
+          <a href="../chaupal/chaupal.html">चौपाल</a>
+          <a href="../kisan-bank/kisan-bank.html">किसान बैंक</a>
+          <a href="../disease-diagnosis/disease-diagnosis.html">रोग निदान</a>
+          <a class="active" href="satellite-ai.html">उपग्रह AI</a>
+          <a href="../kisan-radio/kisan-radio.html">किसान रेडियो</a>
+        </nav>
+        <div class="sf-header-actions">
+          <a
+            class="sf-btn sf-btn-outline sf-btn-sm"
+            href="../../pages/index.html"
+            >← Smart Farm</a
+          >
+          <button
+            class="sf-btn sf-btn-dark sf-btn-sm"
+            id="sf-auth-btn"
+            type="button">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sf-main">
+      <div class="sf-shell">
+        <div class="sf-page-head">
+          <p class="sf-kicker">Field monitoring</p>
+          <h1>Satellite AI</h1>
+          <p>
+            View your field on a map, inspect satellite imagery, check
+            crop-health information and weather, and save your fields for later.
+            Data sources are explicitly labelled (<span
+              class="sf-pill sf-pill-live"
+              >Live data</span
+            >
+            <span class="sf-pill sf-pill-cached">Cached data</span>
+            <span class="sf-pill sf-pill-demo">Demo data</span>
+            <span class="sf-pill sf-pill-unavailable">API unavailable</span>).
+          </p>
+        </div>
+
+        <!-- Layer status -->
+        <section class="sf-panel" id="layer-status-panel">
+          <h3>Data sources</h3>
+          <div id="layer-status" class="sf-loading">
+            Checking available data sources…
+          </div>
+        </section>
+
+        <div class="sat-layout" style="margin-top: 18px">
+          <div class="sat-main">
+            <!-- Map -->
+            <section class="sf-panel">
+              <div class="sat-map-toolbar">
+                <div class="sf-field" style="flex: 1; margin: 0">
+                  <label for="sat-search">Find a place</label>
+                  <input
+                    class="sf-input"
+                    id="sat-search"
+                    placeholder="Village, town, district…" />
+                </div>
+                <button
+                  class="sf-btn sf-btn-dark"
+                  type="button"
+                  id="sat-search-btn">
+                  Search
+                </button>
+                <button
+                  class="sf-btn sf-btn-outline"
+                  type="button"
+                  id="sat-locate-btn">
+                  📍 My location
+                </button>
+              </div>
+              <div class="sat-map-controls">
+                <label
+                  ><input type="radio" name="sat-base" value="street" checked />
+                  Street map</label
+                >
+                <label
+                  ><input type="radio" name="sat-base" value="satellite" />
+                  Satellite imagery</label
+                >
+                <span class="sf-muted"
+                  >Base imagery is live map tiles; it is not an NDVI
+                  analysis.</span
+                >
+              </div>
+              <div
+                id="sat-map"
+                class="sat-map"
+                role="application"
+                aria-label="Field map"></div>
+              <div
+                id="sat-map-error"
+                class="sf-error sf-hidden"
+                role="alert"></div>
+            </section>
+
+            <!-- Crop health / field info -->
+            <section class="sat-grid-2" style="margin-top: 18px">
+              <div class="sf-panel">
+                <h3>Crop health</h3>
+                <div id="crop-health">
+                  <p class="sf-muted">
+                    Select a location to view crop-health information.
+                  </p>
+                </div>
+              </div>
+              <div class="sf-panel">
+                <h3>Weather</h3>
+                <div id="sat-weather">
+                  <p class="sf-muted">
+                    Weather loads for the selected location.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Save field -->
+            <section class="sf-panel" style="margin-top: 18px">
+              <h3>Save this field</h3>
+              <div id="sat-locked" class="sf-notice sf-hidden">
+                Please <a href="../../pages/login.html">log in</a> to save
+                fields and view field history.
+              </div>
+              <div id="sat-save-body">
+                <div class="sat-grid-2">
+                  <div class="sf-field">
+                    <label for="field-name">Field name</label
+                    ><input
+                      class="sf-input"
+                      id="field-name"
+                      placeholder="e.g. North field" />
+                  </div>
+                  <div class="sf-field">
+                    <label for="field-crop">Crop</label
+                    ><input
+                      class="sf-input"
+                      id="field-crop"
+                      placeholder="e.g. Wheat" />
+                  </div>
+                </div>
+                <div class="sf-field">
+                  <label for="field-notes">Notes (optional)</label
+                  ><input
+                    class="sf-input"
+                    id="field-notes"
+                    placeholder="Anything to remember" />
+                </div>
+                <div class="sf-row">
+                  <button
+                    class="sf-btn sf-btn-primary"
+                    type="button"
+                    id="sat-save-btn">
+                    Save field
+                  </button>
+                  <span class="sf-muted" id="sat-save-msg"></span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Saved fields + history -->
+          <aside class="sat-side">
+            <section class="sf-panel">
+              <h3>Saved fields</h3>
+              <div id="sat-fields">
+                <p class="sf-muted">Log in to save fields.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">
+      <div class="sf-shell">
+        Smart Farm · Satellite AI · NDVI analysis requires a connected satellite
+        API. Map keys are configured server-side.
+      </div>
+    </footer>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin="anonymous"></script>
+    <script src="../shared/feature.js"></script>
+    <script src="satellite-ai.js"></script>
+  
+<script src="../../js/app-navigation.js" defer></script>
+<script src="../../js/site-language.js" defer></script>
+</body>
+</html>

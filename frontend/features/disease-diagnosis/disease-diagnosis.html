@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Crop Disease Diagnosis | Smart Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../shared/feature.css" />
+    <link rel="stylesheet" href="disease-diagnosis.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+  
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+  <body class="sf-feature">
+    <div class="sf-topbar">
+      <div class="sf-shell">
+        <div>SMART FARM / ROG NIDAN</div>
+        <div>Crop photo upload • Diagnosis history</div>
+      </div>
+    </div>
+
+    <header class="sf-header">
+      <div class="sf-shell">
+        <a class="sf-brand" href="../../pages/index.html"
+          ><strong>Smart Farm</strong><span>Crop Disease Diagnosis</span></a
+        >
+        <nav class="sf-nav">
+          <a href="../schemes/schemes.html">योजनाएं</a>
+          <a href="../chaupal/chaupal.html">चौपाल</a>
+          <a href="../kisan-bank/kisan-bank.html">किसान बैंक</a>
+          <a class="active" href="disease-diagnosis.html">रोग निदान</a>
+          <a href="../satellite-ai/satellite-ai.html">उपग्रह AI</a>
+          <a href="../kisan-radio/kisan-radio.html">किसान रेडियो</a>
+        </nav>
+        <div class="sf-header-actions">
+          <a
+            class="sf-btn sf-btn-outline sf-btn-sm"
+            href="../../pages/index.html"
+            >← Smart Farm</a
+          >
+          <button
+            class="sf-btn sf-btn-dark sf-btn-sm"
+            id="sf-auth-btn"
+            type="button">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sf-main">
+      <div class="sf-shell diag-layout">
+        <div class="diag-main">
+          <div class="sf-page-head">
+            <p class="sf-kicker">Crop health</p>
+            <h1>Disease Diagnosis</h1>
+            <p>
+              Upload a clear photo of the affected crop leaf or plant, choose
+              the crop type, and submit. You can save results to your history
+              and delete them anytime.
+            </p>
+          </div>
+
+          <div
+            class="sf-notice sf-notice-warn"
+            role="alert"
+            id="diag-model-note">
+            ⚙️ <strong>Important:</strong> No trained crop-disease AI model is
+            connected to this server yet. Results will be clearly marked as
+            <em>“Demo result — AI model not connected”</em>. Do not treat them
+            as a real diagnosis.
+          </div>
+
+          <!-- Upload workflow -->
+          <section class="sf-panel diag-form">
+            <h3>1. Add a crop photo</h3>
+            <div class="diag-upload">
+              <label class="diag-drop" for="diag-file">
+                <span class="diag-drop-icon">🌿</span>
+                <span>Click to choose, or use the camera button</span>
+                <input
+                  type="file"
+                  id="diag-file"
+                  accept="image/png,image/jpeg,image/webp"
+                  hidden />
+              </label>
+              <div class="diag-upload-actions">
+                <button
+                  class="sf-btn sf-btn-outline"
+                  type="button"
+                  id="diag-camera-btn">
+                  📷 Use camera
+                </button>
+                <input
+                  type="file"
+                  id="diag-camera"
+                  accept="image/*"
+                  capture="environment"
+                  hidden />
+              </div>
+            </div>
+            <p class="sf-muted diag-hint">
+              JPG, PNG or WEBP, up to 5 MB. Avoid blurry photos; capture the
+              leaf close-up in good light.
+            </p>
+
+            <div id="diag-preview-wrap" class="sf-hidden">
+              <img
+                id="diag-preview"
+                class="diag-preview"
+                alt="Selected crop photo preview" />
+            </div>
+
+            <h3>2. Select crop type</h3>
+            <div class="sf-field">
+              <select class="sf-select" id="diag-crop">
+                <option value="">Choose crop…</option>
+                <option>Wheat</option>
+                <option>Rice / Paddy</option>
+                <option>Tomato</option>
+                <option>Potato</option>
+                <option>Onion</option>
+                <option>Mustard</option>
+                <option>Cotton</option>
+                <option>Sugarcane</option>
+                <option>Maize</option>
+                <option>Soybean</option>
+                <option>Chilli</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="sf-row">
+              <button
+                class="sf-btn sf-btn-primary"
+                type="button"
+                id="diag-submit">
+                Submit for diagnosis
+              </button>
+              <span id="diag-msg" class="sf-muted"></span>
+            </div>
+          </section>
+
+          <!-- Result -->
+          <section
+            class="sf-panel sf-hidden"
+            id="diag-result-panel"
+            aria-live="polite">
+            <h3>Diagnosis result</h3>
+            <div id="diag-result"></div>
+          </section>
+
+          <div class="sf-notice" style="margin-top: 18px">
+            ✅ <strong>Disclaimer:</strong> Any diagnosis shown here is an
+            automated estimate only and must be verified by an agriculture
+            expert or your local KVK / Agriculture Department before you act on
+            it.
+          </div>
+        </div>
+
+        <!-- History -->
+        <aside class="diag-side">
+          <section class="sf-panel">
+            <h3>Your diagnosis history</h3>
+            <div id="diag-history">
+              <p class="sf-muted">Log in to save and view your history.</p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="sf-footer">
+      <div class="sf-shell">
+        Smart Farm · Rog Nidan · Demo workflow until an AI model is connected.
+      </div>
+    </footer>
+
+    <script src="../shared/feature.js"></script>
+    <script src="disease-diagnosis.js"></script>
+  
+<script src="../../js/app-navigation.js" defer></script>
+<script src="../../js/site-language.js" defer></script>
+</body>
+</html>

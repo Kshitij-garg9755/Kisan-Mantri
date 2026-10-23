@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>🌱 Smart Farm - AR Measure with 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/kkk.css">
+    <link rel="stylesheet" href="../css/kk.css">
+    <link rel="stylesheet" href="../css/google.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <style>
+        :root{
+            --green:#2e7d32; --bg:#f0f5f1; --muted:#6b7280;
+        }
+        body{margin:0;font-family:Montserrat,system-ui,Arial;background:var(--bg);color:#0b3a24}
+        header{background:var(--green);color:#fff;padding:12px 18px;font-weight:700}
+        .container{max-width:1100px;margin:18px auto;padding:12px}
+        .layout{display:grid;grid-template-columns:1fr 460px;gap:18px}
+        .panel{background:#fff;border-radius:12px;padding:12px;box-shadow:0 8px 24px rgba(8,15,20,0.06)}
+        #wrap{position:relative;border-radius:10px;overflow:hidden}
+        video{width:100%;height:60vh;object-fit:cover;display:block;background:#000}
+        canvas#draw-canvas{position:absolute;left:0;top:0;pointer-events:none}
+        #point-markers{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+        .point-marker{position:absolute;width:18px;height:18px;background:#ff5b5b;border:3px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 4px 12px rgba(0,0,0,0.25)}
+        .line-label{position:absolute;background:var(--green);color:#fff;padding:4px 8px;border-radius:8px;font-weight:700;font-size:13px;transform:translate(-50%,-50%);pointer-events:none}
+        .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+        .controls button, .controls input{padding:8px 12px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+        .btn-primary{background:var(--green);color:#fff}
+        .btn-ghost{background:#fff;border:1px solid #ddd;color:#0b3a24}
+        #summary{margin-top:10px;font-weight:700;color:#0b3a24}
+        /* 3D modal */
+        .modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999; background:rgba(6,8,10,0.55); }
+        .modal-inner{width:90%;max-width:1100px;height:80vh;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+        #three-container{flex:1;position:relative; background:#e6f4ea}
+        .modal-toolbar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #eee;align-items:center}
+        .measure-bubble{position:absolute;left:8px;top:8px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 10px;border-radius:8px;font-weight:700;z-index:10}
+        .side-panel{padding:10px;width:460px}
+        .field{margin-bottom:8px}
+        .small{font-size:13px;color:var(--muted)}
+        footer{margin-top:18px;text-align:center;color:var(--muted)}
+    </style>
+
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body>
+   <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+        <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <h1>SMART FARM</h1>
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="layout">
+      <div class="panel">
+        <h3>Camera / Point Capture</h3>
+        <div id="wrap">
+          <video id="video" autoplay playsinline></video>
+          <canvas id="draw-canvas"></canvas>
+          <div id="point-markers"></div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-clear" class="btn-ghost">Clear</button>
+          <button id="btn-undo" class="btn-ghost">Undo</button>
+          <button id="btn-3d" class="btn-primary">3D View</button>
+
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <label class="small">Scale (m / px)</label>
+            <input id="scale-input" type="number" step="0.0001" value="0.01" style="width:110px;border-radius:8px;border:1px solid #ddd;padding:6px" />
+          </div>
+        </div>
+
+        <div id="summary">Distance: 0 m • Area: 0 m² (0 ft²)</div>
+        <div class="small" style="margin-top:8px">Tip: Click on the video to place points on the ground. Use scale to calibrate real-world size.</div>
+      </div>
+
+      <div class="panel side-panel">
+        <h4>Points</h4>
+        <div id="point-list" style="max-height:52vh;overflow:auto;padding-right:6px"></div>
+        <hr/>
+        <h4>Exports & Controls</h4>
+        <div class="field">
+          <button id="btn-export-obj" class="btn-ghost">Save OBJ</button>
+          <button id="btn-export-gltf" class="btn-ghost">Save GLTF</button>
+        </div>
+        <div class="field">
+          <button id="btn-screenshot" class="btn-ghost">Save 3D Screenshot</button>
+        </div>
+        <div style="margin-top:12px" class="small">3D View exports extruded polygon (height chosen by you inside 3D modal). Click the 3D model to see measurements (area, diameter).</div>
+      </div>
+    </div>
+
+    <footer>Made with ❤️ for Farmers — Click "3D View" to open interactive 3D model</footer>
+  </div>
+
+  <div class="modal" id="modal-3d" role="dialog" aria-hidden="true">
+    <div class="modal-inner">
+      <div class="modal-toolbar">
+        <button id="modal-close" class="btn-ghost">Close</button>
+        <button id="modal-export-obj" class="btn-ghost">Export OBJ</button>
+        <button id="modal-export-gltf" class="btn-ghost">Export GLTF</button>
+        <label style="margin-left:8px">Extrude height (m)</label>
+        <input id="extrude-height" type="number" step="0.01" value="0.2" style="width:80px;border-radius:8px;border:1px solid #ddd;padding:6px" />
+        <button id="modal-screenshot" class="btn-ghost" style="margin-left:auto">Screenshot</button>
+      </div>
+      <div id="three-container">
+        <div class="measure-bubble" id="three-info" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+    import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+
+    (function(){
+      // Elements
+      const video = document.getElementById('video');
+      const drawCanvas = document.getElementById('draw-canvas');
+      const ctx = drawCanvas.getContext('2d');
+      const markers = document.getElementById('point-markers');
+      const btnClear = document.getElementById('btn-clear');
+      const btnUndo = document.getElementById('btn-undo');
+      const btn3D = document.getElementById('btn-3d');
+      const scaleInput = document.getElementById('scale-input');
+      const summary = document.getElementById('summary');
+      const pointList = document.getElementById('point-list');
+      const btnExportOBJ = document.getElementById('btn-export-obj');
+      const btnExportGLTF = document.getElementById('btn-export-gltf');
+      const btnScreenshot = document.getElementById('btn-screenshot');
+
+      // 3D modal elements
+      const modal = document.getElementById('modal-3d');
+      const threeContainer = document.getElementById('three-container');
+      const modalClose = document.getElementById('modal-close');
+      const modalExportOBJ = document.getElementById('modal-export-obj');
+      const modalExportGLTF = document.getElementById('modal-export-gltf');
+      const modalScreenshot = document.getElementById('modal-screenshot');
+      const extrudeHeightInput = document.getElementById('extrude-height');
+      const threeInfo = document.getElementById('three-info');
+
+      // Data
+      let points = []; // each point: {x,y, screenX, screenY}
+      let scale = parseFloat(scaleInput.value) || 0.01; // meters per pixel
+
+      // Resize draw canvas to video size
+      function resizeCanvas(){
+        drawCanvas.width = video.clientWidth;
+        drawCanvas.height = video.clientHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+
+      // Start camera
+      async function startCamera(){
+        try{
+          const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}, audio:false});
+          video.srcObject = stream;
+          await video.play();
+          resizeCanvas();
+        }catch(e){
+          alert('Camera access denied or not available.');
+        }
+      }
+      startCamera();
+
+      // Helpers: add marker UI
+      function addMarker(x,y){
+        const m = document.createElement('div');
+        m.className = 'point-marker';
+        m.style.left = x + 'px';
+        m.style.top = y + 'px';
+        markers.appendChild(m);
+        return m;
+      }
+
+      function clearMarkers(){
+        markers.innerHTML = '';
+      }
+
+      // Add point on video click
+      video.addEventListener('click', (ev) => {
+        const rect = video.getBoundingClientRect();
+        const screenX = ev.clientX - rect.left;
+        const screenY = ev.clientY - rect.top;
+        const pxX = screenX;
+        const pxY = screenY;
+        points.push({pxX, pxY});
+        addMarker(screenX, screenY);
+        redraw();
+        updateSummary();
+        renderPointList();
+      });
+
+      // Draw lines on overlay canvas
+      function redraw(){
+        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+        if(points.length < 1) return;
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#00c853";
+        ctx.beginPath();
+        ctx.moveTo(points[0].pxX, points[0].pxY);
+        for(let i=1;i<points.length;i++){
+          ctx.lineTo(points[i].pxX, points[i].pxY);
+        }
+        ctx.stroke();
+
+        // Close polygon if >=3
+        if(points.length >= 3){
+          ctx.beginPath();
+          ctx.moveTo(points[0].pxX, points[0].pxY);
+          for(let i=1;i<points.length;i++) ctx.lineTo(points[i].pxX, points[i].pxY);
+          ctx.closePath();
+          ctx.globalAlpha = 0.08;
+          ctx.fillStyle = "#00c853";
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+
+        // draw distance labels between consecutive points
+        for(let i=1;i<points.length;i++){
+          drawDistanceLabel(points[i-1], points[i]);
+        }
+      }
+
+      function drawDistanceLabel(p1, p2){
+        const midX = (p1.pxX + p2.pxX)/2;
+        const midY = (p1.pxY + p2.pxY)/2;
+        const distPx = Math.hypot(p1.pxX - p2.pxX, p1.pxY - p2.pxY);
+        const distM = (distPx * scale).toFixed(2);
+        // simple label draw
+        ctx.font = "bold 13px Arial";
+        ctx.fillStyle = "#053018";
+        ctx.fillText(distM + " m", midX + 6, midY - 6);
+      }
+
+      // Summary: total distance and polygon area
+      function updateSummary(){
+        if(points.length < 2){
+          summary.textContent = 'Distance: 0 m • Area: 0 m² (0 ft²)';
+          return;
+        }
+        // total path length
+        let totalPx = 0;
+        for(let i=1;i<points.length;i++){
+          totalPx += Math.hypot(points[i].pxX - points[i-1].pxX, points[i].pxY - points[i-1].pxY);
+        }
+        const totalM = (totalPx * scale).toFixed(2);
+
+        // polygon area if >=3
+        let areaM2 = 0;
+        let areaFt2 = 0;
+        if(points.length >= 3){
+          const areaPx = polygonAreaPx(points);
+          areaM2 = (areaPx * scale * scale).toFixed(2);
+          areaFt2 = (areaM2 * 10.7639).toFixed(2);
+        }
+        summary.textContent = `Distance: ${totalM} m • Area: ${areaM2} m² (${areaFt2} ft²)`;
+      }
+
+      function polygonAreaPx(pts){
+        // Shoelace formula with screen coordinates (px)
+        let sum = 0;
+        for(let i=0;i<pts.length;i++){
+          const a = pts[i];
+          const b = pts[(i+1)%pts.length];
+          sum += (a.pxX * b.pxY) - (b.pxX * a.pxY);
+        }
+        return Math.abs(sum / 2);
+      }
+
+      // point list UI
+      function renderPointList(){
+        pointList.innerHTML = '';
+        points.forEach((p,i)=>{
+          const div = document.createElement('div');
+          div.style.display='flex';
+          div.style.justifyContent='space-between';
+          div.style.padding='6px 0';
+          div.style.borderBottom = '1px dashed #eee';
+          const pxToM = (val)=> (val * scale).toFixed(2);
+          div.innerHTML = `<div>#${i+1} — x:${pxToM(p.pxX)} m, y:${pxToM(p.pxY)} m</div>
+            <div><button data-index="${i}" class="remove-btn" style="border:0;background:transparent;color:#d32f2f;cursor:pointer">Remove</button></div>`;
+          pointList.appendChild(div);
+        });
+        // remove handlers
+        Array.from(document.querySelectorAll('.remove-btn')).forEach(btn=>{
+          btn.addEventListener('click', (ev)=>{
+            const idx = parseInt(btn.getAttribute('data-index'));
+            points.splice(idx,1);
+            rebuildMarkers();
+            redraw();
+            updateSummary();
+            renderPointList();
+          });
+        });
+      }
+
+      function rebuildMarkers(){
+        markers.innerHTML = '';
+        points.forEach(p => addMarker(p.pxX, p.pxY));
+      }
+
+      // Clear & Undo
+      btnClear.addEventListener('click', ()=>{
+        points = [];
+        markers.innerHTML = '';
+        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+        updateSummary();
+        renderPointList();
+      });
+      btnUndo.addEventListener('click', ()=>{
+        points.pop();
+        rebuildMarkers();
+        redraw();
+        updateSummary();
+        renderPointList();
+      });
+
+      // scale input change
+      scaleInput.addEventListener('change', ()=>{
+        scale = parseFloat(scaleInput.value) || 0.01;
+        updateSummary();
+        redraw();
+      });
+
+      // ------------- 3D Scene (Three.js) -------------
+      let renderer, scene, camera, controls, modelMesh;
+      function initThree(container){
+        // clear prev if any
+        while(container.firstChild) container.removeChild(container.firstChild);
+
+        renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xeaf6ec);
+
+        camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.01, 2000);
+        camera.position.set(0.8, 0.8, 0.8);
+
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0,0,0);
+        controls.update();
+
+        // grid + light
+        const grid = new THREE.GridHelper(10, 20, 0x0a3b1a, 0xe6f4ea);
+        grid.rotation.x = Math.PI/2;
+        scene.add(grid);
+
+        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.9);
+        scene.add(hemi);
+        const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir.position.set(3,10,5);
+        scene.add(dir);
+
+        // handle resize
+        window.addEventListener('resize', ()=> {
+          if(!renderer) return;
+          renderer.setSize(container.clientWidth, container.clientHeight);
+          camera.aspect = container.clientWidth / container.clientHeight;
+          camera.updateProjectionMatrix();
+        });
+
+        function animate(){
+          requestAnimationFrame(animate);
+          controls.update(); 
+          renderer.render(scene, camera);
+        }
+        animate();
+      }
+
+      // Build three.js model from points
+      function build3DModel(extrudeHeight){
+        if(modelMesh){
+          scene.remove(modelMesh);
+          modelMesh.traverse(child=>{ if(child.geometry) child.geometry.dispose(); });
+          modelMesh = null;
+        }
+
+        if(points.length < 3) return;
+
+        const vertsMeters = points.map(p => ({ x: (p.pxX * scale), z: -(p.pxY * scale) }));
+        let cx = 0, cz = 0;
+        for(const v of vertsMeters){ cx += v.x; cz += v.z; }
+        cx /= vertsMeters.length; cz /= vertsMeters.length;
+        const shifted = vertsMeters.map(v => ({ x: v.x - cx, z: v.z - cz }));
+
+        const shape = new THREE.Shape();
+        shifted.forEach((v,i)=>{
+          if(i===0) shape.moveTo(v.x, v.z);
+          else shape.lineTo(v.x, v.z);
+        });
+        shape.closePath();
+
+        const extrudeSettings = { depth: extrudeHeight, bevelEnabled: false };
+        const geom = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        geom.rotateX(-Math.PI / 2);
+
+        const mat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, transparent:true, opacity:0.9, side: THREE.DoubleSide });
+        modelMesh = new THREE.Mesh(geom, mat);
+        modelMesh.position.set(0, 0, 0);
+        modelMesh.userData.isTerrain = true;
+        scene.add(modelMesh);
+
+        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geom), new THREE.LineBasicMaterial({ color: 0x053018 }));
+        scene.add(wire);
+
+        const centroidMarker = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.01, extrudeHeight*0.08), 12, 12), new THREE.MeshBasicMaterial({ color: 0xffcc00 }));
+        centroidMarker.position.set(0, 0.02, 0);
+        scene.add(centroidMarker);
+
+        controls.target.set(0,0,0);
+        controls.update();
+        const bbox = new THREE.Box3().setFromObject(modelMesh);
+        const size = bbox.getSize(new THREE.Vector3());
+        const radius = Math.max(size.x, size.z);
+        camera.position.set(radius*1.5, radius*1.2, radius*1.5);
+        camera.lookAt(0,0,0);
+        controls.update();
+
+        // 3D model banne ke turant baad measurements dikhao
+        showModelMeasurements();
+      }
+
+      // compute measurements: area (m2) and max diameter (m)
+      function computeMeasurements(){
+        if(points.length < 3) return null;
+        const vertsMeters = points.map(p => ({ x: p.pxX * scale, z: -p.pxY * scale }));
+        let sum = 0;
+        for(let i=0;i<vertsMeters.length;i++){
+          const a = vertsMeters[i];
+          const b = vertsMeters[(i+1)%vertsMeters.length];
+          sum += (a.x * b.z) - (b.x * a.z);
+        }
+        const areaM2 = Math.abs(sum/2);
+        let maxD = 0;
+        for(let i=0;i<vertsMeters.length;i++){
+          for(let j=i+1;j<vertsMeters.length;j++){
+            const dx = vertsMeters[i].x - vertsMeters[j].x;
+            const dz = vertsMeters[i].z - vertsMeters[j].z;
+            const d = Math.hypot(dx, dz);
+            if(d > maxD){ maxD = d; }
+          }
+        }
+        return { areaM2, diameterM: maxD };
+      }
+
+      function showModelMeasurements(){
+        const m = computeMeasurements();
+        if(!m) return;
+        const areaFt2 = (m.areaM2 * 10.7639).toFixed(2);
+        const diameterM = m.diameterM.toFixed(3);
+        const text = `Area: ${m.areaM2.toFixed(3)} m² (${areaFt2} ft²) — Diameter: ${diameterM} m`;
+        threeInfo.style.display = 'block';
+        threeInfo.textContent = text;
+        setTimeout(()=>{ threeInfo.style.display='none'; }, 7000);
+      }
+
+      // Open 3D modal & init
+      btn3D.addEventListener('click', ()=>{
+        if(points.length < 3){
+          alert('Add at least 3 points to create 3D polygon.');
+          return;
+        }
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden','false');
+        initThree(threeContainer);
+        const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
+        build3DModel(extrudeH);
+      });
+
+      modalClose.addEventListener('click', ()=> {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden','true');
+        // Scene ko saaf karo
+        try{
+            scene.traverse(child => {
+                if(child.isMesh) {
+                    if(child.geometry) child.geometry.dispose();
+                    if(child.material) {
+                        if(Array.isArray(child.material)) {
+                            child.material.forEach(mat => mat.dispose());
+                        } else {
+                            child.material.dispose();
+                        }
+                    }
+                }
+            });
+            renderer.renderLists.dispose();
+            renderer.dispose();
+        } catch(e) {
+            console.error("Renderer disposal error:", e);
+        }
+        renderer = null;
+        threeContainer.innerHTML = '';
+      });
+
+      // Modal export handlers
+      modalExportOBJ.addEventListener('click', ()=>{
+        if(!modelMesh){ alert('3D model not built'); return; }
+        const exporter = new OBJExporter();
+        const objText = exporter.parse(modelMesh);
+        downloadText('model.obj', objText);
+      });
+      modalExportGLTF.addEventListener('click', ()=>{
+        if(!modelMesh){ alert('3D model not built'); return; }
+        const exporter = new GLTFExporter();
+        exporter.parse(modelMesh, function(result){
+          const out = JSON.stringify(result, null, 2);
+          downloadText('model.gltf', out);
+        }, {binary:false});
+      });
+      modalScreenshot.addEventListener('click', ()=>{
+        if(!renderer) return;
+        const dataURL = renderer.domElement.toDataURL('image/png');
+        downloadDataUrl('screenshot.png', dataURL);
+      });
+
+      // side-panel export triggers: open modal and export
+      btnExportOBJ.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+      btnExportGLTF.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+      btnScreenshot.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+
+      extrudeHeightInput.addEventListener('change', ()=>{
+        if(renderer){
+          const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
+          build3DModel(extrudeH);
+        }
+      });
+
+      function downloadText(filename, text){
+        const blob = new Blob([text], {type:'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }
+      function downloadDataUrl(filename, dataUrl){
+        const a = document.createElement('a');
+        a.href = dataUrl; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      function init(){
+        redraw();
+        updateSummary();
+      }
+      init();
+
+    })();
+  </script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>

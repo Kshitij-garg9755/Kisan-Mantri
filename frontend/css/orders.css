@@ -1,0 +1,48 @@
+:root{
+  --green:#1f8f4a;
+  --muted:#6d6d6d;
+  --radius:14px;
+  --shadow:0 6px 18px rgba(0,0,0,0.1);
+  font-family:'Montserrat',sans-serif;
+}
+body{margin:0;background:#fafafa;color:#111;line-height:1.5}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Hero */
+.hero{position:relative;height:400px;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}
+.hero-bg{position:absolute;inset:0;background:url('https://img.freepik.com/free-photo/real-food-pyramid-arrangement-still-life_23-2150238999.jpg?semt=ais_incoming&w=740&q=80') center/cover;filter:brightness(0.6)}
+.hero-content{position:relative;z-index:1}
+.hero .badge{display:inline-block;background:var(--green);padding:8px 16px;border-radius:20px;font-size:14px;margin-bottom:14px;color:#fff}
+.hero h1{font-family:'Playfair Display',serif;font-size:44px;margin:0}
+
+/* Products */
+.products{padding:60px 20px;text-align:center}
+.products h2{font-size:28px;margin-bottom:40px}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.product-card{background:#fff;padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center;position:relative}
+.product-card img{width:140px;height:140px;object-fit:cover;border-radius:50%;margin-bottom:12px}
+.product-card h4{margin:6px 0 4px}
+.product-card p{color:var(--muted);font-size:14px;margin:0}
+.price{font-weight:700;margin:10px 0}
+.product-card .btn{background:var(--green);color:#fff;border:none;border-radius:7%;width:140px;height:40px;cursor:pointer}
+
+/* Why Choose Us */
+.why{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:60px 20px}
+.why-text h2{font-size:32px;margin:10px 0}
+.features{list-style:none;padding:0;margin:20px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.features li{background:#f5f5f5;padding:10px;border-radius:10px;font-size:14px}
+.btn{padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:600}
+.btn-primary{background:var(--green);color:#fff}
+.why-img img{width:100%;border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* Process */
+.process{text-align:center;padding:60px 20px}
+.process h2{margin-bottom:40px}
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.step{background:#fff;padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.step img{width:100%;border-radius:var(--radius);margin-bottom:10px}
+.step h4{color:var(--green);margin:6px 0}
+
+/* Footer */
+.footer-bg{position:relative;height:200px;background:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=60') center/cover}
+.footer-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}

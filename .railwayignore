@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.local-dev/
+.git/
+node_modules/
+android/
+smart_farm.db*
+agriverse_uploads/
+*_check.png
+weather-map-*.png
+phone-*.png

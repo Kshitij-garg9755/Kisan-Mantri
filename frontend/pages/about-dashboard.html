@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>About Dashboard - SMART FARM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/about.css">
+  <link rel="stylesheet" href="../css/kk.css">
+  <link rel="stylesheet" href="../css/google.css">
+  <link rel="stylesheet" href="../css/ui-refresh.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+     .kpi-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .kpi{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:20px;text-align:left}
+    .kpi .label{color:var(--muted);font-weight:600;font-size:12px;margin-bottom:6px}
+    .kpi .value{font-size:28px;font-weight:800}
+    .kpi .sub{color:var(--muted);font-size:12px}
+    .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
+    .panel{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:22px}
+    .timeline{position:relative;padding-left:20px}
+    .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e5e7eb}
+    .timeline .item{position:relative;margin:14px 0}
+    .timeline .item::before{content:"";position:absolute;left:-2px;top:4px;width:10px;height:10px;border-radius:50%;background:#1f8f4a}
+    .team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .member{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:16px;text-align:center}
+    .member img{width:90px;height:90px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow)}
+    .member h4{margin:10px 0 4px 0}
+    .member p{margin:0;color:var(--muted);font-size:13px}
+    @media(max-width:980px){.kpi-cards{grid-template-columns:repeat(2,1fr)}.about-grid{grid-template-columns:1fr}.team{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.kpi-cards{grid-template-columns:1fr}.team{grid-template-columns:1fr}}
+  </style>
+
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body class="page-about">
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+      <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <h1>SMART FARM</h1>
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+       
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h4 class="badge">Dashboard</h4>
+      <h1>About SMART FARM</h1>
+      <p class="hero-sub">Mission, vision, impact metrics, and the team behind the farm.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h3 class="section-title">Key Metrics</h3>
+    <div class="kpi-cards">
+      <div class="kpi">
+        <div class="label">Years of Operation</div>
+        <div class="value">25+</div>
+        <div class="sub">Sustainable and eco-friendly practices</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Partner Farms</div>
+        <div class="value">48</div>
+        <div class="sub">Across multiple regions</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Monthly Orders</div>
+        <div class="value">6,500</div>
+        <div class="sub">Average fulfilled orders</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Customer Satisfaction</div>
+        <div class="value">97%</div>
+        <div class="sub">Last 3 months</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding-top:12px;">
+    <div class="about-grid">
+      <div class="panel">
+        <h3>Mission & Vision</h3>
+        <p>We deliver organic, high-quality agricultural products using sustainable methods, empowering partner farmers and delighting customers globally.</p>
+        <div class="timeline">
+          <div class="item"><strong>2000</strong> – Family farm established</div>
+          <div class="item"><strong>2008</strong> – Expanded to multi-region sourcing</div>
+          <div class="item"><strong>2016</strong> – Introduced eco processing and logistics</div>
+          <div class="item"><strong>2023</strong> – 6K+ monthly orders milestone</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Certifications</h3>
+        <ul style="margin:0;padding-left:18px;">
+          <li>Organic Produce Certification</li>
+          <li>ISO 22000 Food Safety</li>
+          <li>Fair Trade Partnerships</li>
+          <li>Cold Chain Compliance</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+ <section class="products container">
+    <h2>Recent Messages</h2>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="../assets/images/team-1.png" alt="User">
+        <h4>kshitij garg</h4>
+        <p>Full Stack Developer</p>
+        <button class="btn">View</button>
+      </div>
+       <div class="product-card">
+        <img src="../assets/images/team-3.png" alt="User">
+        <h4>Ayush Raj</h4>
+        <p> Backend , API</p>
+        <button class="btn">View</button>
+      </div>
+      <div class="product-card">
+        <img src="../assets/images/team-2.png" alt="User">
+        <h4> Kashish </h4>
+        <p> Backend , AI/ML</p>
+        <button class="btn">View</button>
+      </div>
+     
+      <div class="product-card">
+        <img src="../assets/images/team-6.png" alt="User">
+        <h4> Rishika </h4>
+        <p> Frontend</p>
+        <button class="btn">View</button>
+      </div>
+      <div class="product-card">
+        <img src="../assets/images/team-5.png" alt="User">
+        <h4> Prachi Daharwal</h4>
+        <p> Database</p>
+        <button class="btn">View</button>
+      </div>
+      <div class="product-card">
+        <img src="../assets/images/team-4.png" alt="User">
+        <h4>Shruti Tiwari</h4>
+        <p> AI/ML</p>
+        <button class="btn">View</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="newsletter">
+      <h3>Have Questions?</h3>
+      <p>Reach out for partnerships, bulk orders, or media enquiries.</p>
+      <a class="btn btn-primary" href="../pages/contact-dashboard.html">Contact Us</a>
+    </div>
+  </footer>
+ <link href="../css/chat.css" rel="stylesheet" /> 
+  <script src="../js/script.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+       includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+   <script type="module">
+       import '../js/dev-config.js';
+       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+      createChat({
+        webhookUrl: window.SMART_FARM_DEV_CONFIG.n8nUrl('webhook/96703a83-b23d-4a2b-9476-fa62cffd91d5/chat')
+      });
+    </script>
+  <script type="module" src="../js/script.js"></script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>
+
+

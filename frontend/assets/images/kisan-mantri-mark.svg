@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Kisan Mantri farmer emblem</title>
+  <rect width="128" height="128" rx="32" fill="#123e32"/>
+  <circle cx="64" cy="67" r="47" fill="#1c5942" stroke="#dfad4c" stroke-width="2"/>
+  <path d="M27 112 C30 96 39 87 51 83 L64 96 L77 83 C89 87 98 96 101 112Z" fill="#a8c77c"/>
+  <path d="M51 84 L64 98 L77 84" fill="none" stroke="#fff1cf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M47 54 C51 49 76 49 81 54 L79 72 C77 82 69 88 64 89 C57 87 50 81 48 72Z" fill="#e4b47f"/>
+  <path d="M39 55 C38 43 49 34 63 34 C78 34 89 43 89 55 L84 62 C72 56 55 56 43 63Z" fill="#f1b94d"/>
+  <path d="M42 53 C53 46 74 45 86 53" fill="none" stroke="#fff0ca" stroke-width="5" stroke-linecap="round"/>
+  <path d="M64 37 C59 42 58 47 59 52 M69 38 C75 42 77 47 76 52" fill="none" stroke="#d99034" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="55" cy="64" r="2" fill="#20352c"/>
+  <circle cx="73" cy="64" r="2" fill="#20352c"/>
+  <path d="M48 69 C53 63 59 64 64 69 C69 64 76 63 81 69 C78 77 70 77 64 72 C58 77 51 77 48 69Z" fill="#183c30"/>
+</svg>

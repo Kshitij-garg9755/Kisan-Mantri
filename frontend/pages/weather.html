@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Weather - Live Weather Updates</title>
+    <meta name="description" content="Get live weather updates for any location">
+    <link rel="stylesheet" href="../css/weather.css?v=search-map-2">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="../css/styles.css">
+     <link rel="stylesheet" href="../css/kkk.css">
+     <link rel="stylesheet" href="../css/kk.css">
+     <link rel="stylesheet" href="../css/google.css">
+    <link rel="stylesheet" href="../css/ui-refresh.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+         <link rel="stylesheet" href="../css/weather-map.css?v=search-map-2">
+         <link rel="stylesheet" href="../css/weather-map-data.css?v=search-map-2">
+        <link rel="stylesheet" href="../css/theme.css">
+    
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+  <body class="page-weather">
+     <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+        <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <!-- Header / Nav -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+      <img src="../assets/images/kisan-mantri-mark.svg" alt="Kisan Mantri logo"> 
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+       
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+    <main class="weather-shell">
+      <section class="weather-bulletin" aria-labelledby="weather-bulletin-title">
+        <div class="bulletin-heading">
+          <div>
+            <span class="bulletin-kicker">Live agricultural weather update</span>
+            <h1 id="weather-bulletin-title">SMART FARM WEATHER NEWS</h1>
+            <p>Field-ready forecasts for better irrigation, spraying and harvest planning.</p>
+          </div>
+          <div class="bulletin-status">
+            <span id="weather-data-status">LIVE FORECAST</span>
+            <button type="button" id="weather-refresh-btn" class="weather-action-button" title="Refresh weather"><i class="fas fa-rotate-right" aria-hidden="true"></i><span>Refresh</span></button>
+          </div>
+        </div>
+
+        <div class="weather-search-row">
+          <form id="search-form" class="weather-search-form" role="search">
+            <label for="search-input">Search village, city or district</label>
+            <div class="weather-search-controls">
+              <input type="search" id="search-input" placeholder="e.g. Nashik, Punjab or your village" autocomplete="off">
+              <button type="submit" class="weather-action-button">Search</button>
+              <button type="button" id="location-btn" class="weather-action-button weather-action-secondary"><i class="fas fa-location-crosshairs" aria-hidden="true"></i><span>Use my location</span></button>
+            </div>
+            <div id="weather-location-results" class="weather-location-results" role="listbox" aria-label="Matching locations" hidden></div>
+          </form>
+          <div class="weather-meta"><span>LOCATION</span><strong id="bulletin-location">Not available</strong><small id="bulletin-updated">Last updated: Not available</small></div>
+        </div>
+
+        <div id="weather-loading" class="weather-state weather-loading" hidden aria-live="polite">
+          <div class="loading-skeleton loading-skeleton-large"></div><div class="loading-skeleton"></div><div class="loading-skeleton"></div><p>Loading live forecast...</p>
+        </div>
+        <div id="weather-error" class="weather-state weather-error" hidden role="alert" aria-live="assertive">
+          <i class="fas fa-triangle-exclamation" aria-hidden="true"></i><div><strong id="weather-error-title">Unable to load weather information.</strong><p id="weather-error-message">Please try again.</p></div><button type="button" id="weather-retry-btn" class="weather-action-button">Retry</button>
+        </div>
+
+        <div id="weather-content" hidden>
+          <section class="weather-hero-card" aria-labelledby="current-weather-title">
+            <div class="weather-hero-overlay"></div>
+            <div class="weather-hero-copy">
+              <span class="bulletin-kicker">Current conditions</span>
+              <h2 id="current-weather-title">Not available</h2>
+              <p id="current-date-time">Not available</p>
+              <div class="hero-reading"><i id="current-weather-icon" class="fas fa-cloud-sun" aria-hidden="true"></i><strong id="current-temperature">Not available</strong><span id="current-condition">Not available</span></div>
+              <span id="current-feels-like" class="feels-like">Feels like Not available</span>
+            </div>
+            <div class="hero-stats" aria-label="Current weather details">
+              <div><span>Rain probability</span><strong id="current-rain">Not available</strong></div><div><span>Humidity</span><strong id="current-humidity">Not available</strong></div><div><span>Wind speed</span><strong id="current-wind">Not available</strong></div><div><span>Sunrise / Sunset</span><strong id="sun-times">Not available</strong></div>
+            </div>
+          </section>
+
+          <section class="weather-section" aria-labelledby="seven-day-title"><div class="section-heading"><div><span class="bulletin-kicker">The week ahead</span><h2 id="seven-day-title">Seven-day forecast</h2></div><span class="section-note">Forecast outlook</span></div><div id="daily-forecast" class="daily-forecast"></div></section>
+          <section class="weather-section" aria-labelledby="hourly-title"><div class="section-heading"><div><span class="bulletin-kicker">Next hours</span><h2 id="hourly-title">Hourly forecast</h2></div><span class="section-note">Scroll for more</span></div><div id="hourly-forecast" class="hourly-forecast"></div></section>
+          <section class="weather-section" aria-labelledby="advisory-title"><div class="section-heading"><div><span class="bulletin-kicker">Farmer desk</span><h2 id="advisory-title">WHAT THIS WEATHER MEANS FOR FARMERS</h2></div></div><div id="farmer-advisory" class="advisory-grid"></div></section>
+          <section class="weather-section weather-alert-section" aria-labelledby="alert-title"><div class="section-heading"><div><span class="bulletin-kicker">Safety first</span><h2 id="alert-title">Weather alerts</h2></div></div><div id="weather-alerts" class="alert-list"></div><p id="alert-note" class="section-note"></p></section>
+        </div>
+
+        <div id="weather-ticker" class="weather-ticker" hidden aria-live="polite"><strong>AGRICULTURAL ADVISORY</strong><span id="ticker-content">Weather information is loading.</span></div>
+      </section>
+
+      <section class="weather-command-center" aria-label="Interactive weather map">
+          <div class="weather-map-toolbar">
+            <div>
+              <span class="broadcast-kicker">Live field desk</span>
+              <h2>Weather across your area</h2>
+              <p>Forecast details for each selected location. Switch the map layer to see rain, clouds, wind or temperature.</p>
+            </div>
+            <div class="weather-map-actions">
+              <button type="button" id="weather-location-btn" class="weather-tool-button">Use location</button>
+              <button type="button" id="weather-reset-btn" class="weather-tool-button">Reset map</button>
+              <button type="button" id="weather-fullscreen-btn" class="weather-tool-button">Fullscreen</button>
+              <select id="weather-map-type" class="weather-map-select" aria-label="Map type">
+                <option value="street">Street view</option><option value="satellite">Satellite view</option>
+              </select>
+            </div>
+          </div>
+          <div class="weather-map-layout">
+            <div class="weather-map-stage">
+              <div id="weather-map" class="weather-map" aria-label="Weather map"></div>
+              <div id="weather-map-loading" class="weather-map-message">Loading weather map...</div>
+              <div id="weather-map-error" class="weather-map-message weather-map-error" hidden></div>
+              <div class="weather-overlay-controls">
+                <button type="button" data-overlay="rain" class="is-active">Hide Rain</button>
+                <button type="button" data-overlay="clouds">Show Clouds</button>
+                <button type="button" data-overlay="wind">Show Wind</button>
+                <button type="button" data-overlay="temperature">Show Temperature</button>
+              </div>
+              <div class="weather-legend"><strong>Forecast precipitation</strong><span><i class="legend-none"></i>No rain</span><span><i class="legend-light"></i>Light</span><span><i class="legend-moderate"></i>Moderate</span><span><i class="legend-heavy"></i>Heavy</span><span><i class="legend-very-heavy"></i>Very heavy</span></div>
+            </div>
+            <aside id="weather-details-panel" class="weather-details-panel" aria-live="polite">
+              <div class="weather-panel-empty"><span class="broadcast-kicker">Select a location</span><h3>Field forecast desk</h3><p>Search for a village or select a weather marker to see the next hours, seven days and farming guidance.</p></div>
+            </aside>
+          </div>
+          <div class="weather-lower-tools">
+            <div class="favorite-strip"><strong>Saved locations</strong><div id="favorite-locations">No saved locations yet.</div></div>
+            <div class="compare-strip"><label for="compare-location">Compare with</label><select id="compare-location"><option value="">Choose a saved location</option></select><div id="compare-result"></div></div>
+          </div>
+        </section>
+
+        <footer class="weather-footer"><p>Smart Farm Weather Desk · Forecast data by Open-Meteo</p></footer>
+      </main>
+ <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        includedLanguages: "aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu'",
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      "google_translate_element"
+    );
+  }
+</script>
+    <script src="../js/dev-config.js"></script>
+    <script src="../js/app-navigation.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="../js/weather.js?v=search-map-2"></script>
+    <script src="../js/site-language.js" defer></script>
+</body>
+</html>

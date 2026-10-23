@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="hi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>🌱 Smart Farm - AR Measure with 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/kkk.css">
+    <link rel="stylesheet" href="../css/kk.css">
+    <link rel="stylesheet" href="../css/google.css">
+    <link rel="stylesheet" href="../css/ui-refresh.css">
+    <link rel="stylesheet" href="../css/ar-measure.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link href="../css/chat.css" rel="stylesheet" /> 
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+      <style>.satellite-mode[hidden],.layout[hidden]{display:none!important}</style>
+      <style>
+        .land-model-modal[hidden]{display:none!important}.land-model-modal{position:fixed;inset:0;z-index:10020;background:rgba(13,29,20,.82);padding:18px}.land-model-shell{width:min(1400px,100%);height:min(900px,100%);margin:auto;background:#fffdf7;border:1px solid #d7ddd2;box-shadow:0 24px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden}.land-model-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 20px;border-bottom:1px solid #d7ddd2}.land-model-header h2{margin:4px 0 0;font:600 28px/1 'Playfair Display',serif;color:#173f2b}.land-model-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:0;flex:1}.land-model-stage{position:relative;min-height:420px;background:#e8f0e1;overflow:hidden}.land-model-canvas,.land-label-layer{position:absolute;inset:0}.land-label-layer{pointer-events:none}.land-model-status{position:absolute;z-index:4;top:50%;left:50%;transform:translate(-50%,-50%);padding:13px 16px;background:#173f2b;color:#fff;font-size:12px;font-weight:700}.land-model-error{background:#8c2f24}.land-model-info{overflow:auto;padding:22px;background:#fffdf7;border-left:1px solid #d7ddd2}.land-model-heading h3{margin:5px 0 6px;color:#173f2b;font:600 25px/1 'Playfair Display',serif}.visual-height-note{margin:0 0 18px;color:#8c5b28;font-size:11px}.land-model-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#d7ddd2}.land-model-stats div{display:flex;flex-direction:column;gap:6px;min-height:68px;padding:10px;background:#f8faf4}.land-model-stats span,.model-meta strong{color:#6f7b72;font-size:10px;text-transform:uppercase;font-weight:800}.land-model-stats strong{color:#173f2b;font-size:14px}.model-meta{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #d7ddd2;font-size:11px}.model-meta span{color:#53625b;text-align:right}.land-model-info h4{margin:18px 0 8px;color:#173f2b;font-size:12px}.land-model-controls{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:18px}.land-model-controls .btn-map-primary{grid-column:1/-1}.land-3d-label{padding:4px 7px;background:rgba(20,35,29,.86);border-left:3px solid #c9f15c;color:#fff;white-space:nowrap;font:700 11px Montserrat,sans-serif;box-shadow:0 4px 14px rgba(20,35,29,.18)}.land-3d-label.area-label{background:#c9f15c;color:#14231d;border-left-color:#e88f67;font-size:12px}.land-3d-label.perimeter-label{background:#e88f67;color:#35170d;border-left-color:#173f2b}.land-model-compass{position:absolute;right:18px;top:18px;width:36px;height:36px;display:grid;place-items:center;border:2px solid #e88f67;border-radius:50%;background:rgba(255,253,247,.9);color:#8c2f24;font-weight:800;font-size:13px;z-index:3}.land-model-open{overflow:hidden}@media(max-width:800px){.land-model-modal{padding:0}.land-model-shell{height:100%;width:100%;border:0}.land-model-header{padding:12px 14px}.land-model-header h2{font-size:22px}.land-model-layout{display:flex;flex-direction:column}.land-model-stage{min-height:48vh;flex:1}.land-model-info{max-height:45vh;border-left:0;border-top:1px solid #d7ddd2;padding:14px}.land-model-controls{grid-template-columns:1fr 1fr}.land-3d-label{font-size:9px;padding:3px 5px}}
+      </style>
+      <style>
+        .drone-icon{width:76px!important;height:76px!important;border:0;background:transparent;pointer-events:none}
+        .drone-icon svg{display:block;width:76px;height:76px;overflow:visible;filter:drop-shadow(0 10px 6px rgba(20,35,29,.42))}
+        .drone-flight{width:76px;height:76px;transform-origin:50% 50%;transition:transform .08s linear}
+        .drone-body{fill:#d8f56d;stroke:#173f2b;stroke-width:2.5}.drone-arm{fill:none;stroke:#173f2b;stroke-width:3;stroke-linecap:round}
+        .drone-rotor{fill:#e88f67;stroke:#fff4d0;stroke-width:1.5;animation:drone-rotor-spin .18s linear infinite;transform-box:fill-box;transform-origin:center}
+        .drone-camera{fill:#14231d;stroke:#fff;stroke-width:1.5}.drone-light{stroke:#fff;stroke-width:1;animation:drone-light-pulse 1s ease-in-out infinite alternate}.drone-light-left{fill:#ff5f56}.drone-light-right{fill:#74e5ff;animation-delay:.35s}
+        .drone-glow{fill:rgba(201,241,92,.18);animation:drone-glow-pulse 1.2s ease-in-out infinite alternate}.drone-shadow-icon{pointer-events:none}.drone-shadow{display:block;width:58px;height:16px;border-radius:50%;background:rgba(10,25,16,.34);filter:blur(6px);transform:translateY(16px);animation:drone-shadow-pulse 1.2s ease-in-out infinite alternate}
+        @keyframes drone-rotor-spin{to{transform:rotate(360deg)}}@keyframes drone-light-pulse{to{opacity:.4}}@keyframes drone-glow-pulse{to{opacity:.35;transform:scale(1.15)}}@keyframes drone-shadow-pulse{to{opacity:.22;transform:translateY(19px) scale(.82)}}
+      </style>
+    <style>
+        :root{
+            --green:#2e7d32; --bg:#f0f5f1; --muted:#6b7280;
+        }
+        body{margin:0;font-family:Montserrat,system-ui,Arial;background:var(--bg);color:#0b3a24}
+        header{background:var(--green);color:#fff;padding:12px 18px;font-weight:700}
+        .container{max-width:1100px;margin:18px auto;padding:12px}
+        .layout{display:grid;grid-template-columns:1fr 460px;gap:18px}
+        .panel{background:#fff;border-radius:12px;padding:12px;box-shadow:0 8px 24px rgba(8,15,20,0.06)}
+        #wrap{position:relative;border-radius:10px;overflow:hidden}
+        video{width:100%;height:60vh;object-fit:cover;display:block;background:#000}
+        canvas#draw-canvas{position:absolute;left:0;top:0;pointer-events:none}
+        #point-markers{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+        .point-marker{position:absolute;width:18px;height:18px;background:#ff5b5b;border:3px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 4px 12px rgba(0,0,0,0.25)}
+        .line-label{position:absolute;background:var(--green);color:#fff;padding:4px 8px;border-radius:8px;font-weight:700;font-size:13px;transform:translate(-50%,-50%);pointer-events:none}
+        .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+        .controls button, .controls input{padding:8px 12px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+        .btn-primary{background:var(--green);color:#fff}
+        .btn-ghost{background:#fff;border:1px solid #ddd;color:#0b3a24}
+        #summary{margin-top:10px;font-weight:700;color:#0b3a24}
+        /* 3D modal */
+        .modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999; background:rgba(6,8,10,0.55); }
+        .modal-inner{width:90%;max-width:1100px;height:80vh;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+        #three-container{flex:1;position:relative; background:#e6f4ea}
+        .modal-toolbar{display:flex;gap:8px;padding:10px;border-bottom:1px solid #eee;align-items:center}
+        .measure-bubble{position:absolute;left:8px;top:8px;background:rgba(0,0,0,0.6);color:#fff;padding:8px 10px;border-radius:8px;font-weight:700;z-index:10}
+        .side-panel{padding:10px;width:460px}
+        .field{margin-bottom:8px}
+        .small{font-size:13px;color:var(--muted)}
+        footer{margin-top:18px;text-align:center;color:var(--muted)}
+    </style>
+
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body class="page-ar">
+   <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+        <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <h1>SMART FARM</h1>
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="measure-mode-switcher" aria-label="Measurement mode">
+      <div>
+        <span class="measure-kicker">Field intelligence</span>
+        <h2>Measure land your way</h2>
+        <p class="small">Use the camera for nearby capture or satellite imagery for coordinate-accurate boundaries.</p>
+      </div>
+      <div class="mode-buttons" role="group" aria-label="Choose measurement mode">
+        <button id="open-camera-mode" class="mode-button is-active" type="button">Open Camera</button>
+        <button id="open-map-mode" class="mode-button" type="button">Open Satellite Map</button>
+      </div>
+    </section>
+
+    <section id="satellite-mode" class="satellite-mode" hidden aria-label="Satellite map measurement mode">
+      <div class="map-stage">
+        <div id="satellite-map" class="satellite-map" aria-label="Interactive satellite map"></div>
+        <div id="map-loading" class="map-status" role="status">Loading satellite map...</div>
+        <div id="map-error" class="map-status map-status-error" role="alert" hidden></div>
+        <div class="map-toolbar map-toolbar-top">
+          <button id="locate-map" class="map-control" type="button">Find my location</button>
+          <button id="reset-map" class="map-control" type="button">Reset map</button>
+          <label class="map-select-label" for="map-type">Map type</label>
+          <select id="map-type" class="map-select">
+            <option value="satellite">Satellite</option>
+            <option value="street">Street</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+        <div class="map-toolbar map-toolbar-bottom">
+          <button id="start-map-measurement" class="btn-map-primary" type="button">Start Measurement</button>
+          <button id="add-map-point" class="map-control" type="button" disabled>Add Point</button>
+          <button id="undo-map-point" class="map-control" type="button" disabled>Undo Last Point</button>
+          <button id="complete-map-measurement" class="map-control" type="button" disabled>Complete Measurement</button>
+          <button id="clear-map-measurement" class="map-control" type="button">Clear Measurement</button>
+        </div>
+        <div id="map-empty-state" class="map-empty-state">Start a measurement, then click the map around your field boundary.</div>
+        <div class="drone-controls" aria-label="Drone controls">
+          <button id="show-drone" class="map-control" type="button">Show Drone</button>
+          <button id="hide-drone" class="map-control" type="button">Hide Drone</button>
+          <label class="map-select-label" for="drone-speed">Speed</label>
+          <select id="drone-speed" class="map-select">
+            <option value="slow">Slow</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Fast</option>
+          </select>
+        </div>
+      </div>
+
+      <aside class="measurement-panel" aria-label="Measurement information">
+        <div class="panel-heading-row">
+          <div><span class="measure-kicker">Satellite survey</span><h3>Measurement details</h3></div>
+          <span id="map-point-count" class="point-count">0 points</span>
+        </div>
+        <label class="measurement-name-label" for="measurement-name">Measurement name</label>
+        <input id="measurement-name" class="measurement-name" type="text" maxlength="80" value="Field measurement" />
+        <div id="map-measurement-empty" class="measurement-empty">No boundary yet. Add at least three map points to calculate an area.</div>
+        <div id="map-measurement-results" class="measurement-results" hidden>
+          <div class="result-grid">
+            <div><span>Area</span><strong id="result-square-feet">0 ft²</strong></div>
+            <div><span>Square meters</span><strong id="result-square-meters">0 m²</strong></div>
+            <div><span>Acres</span><strong id="result-acres">0 ac</strong></div>
+            <div><span>Hectares</span><strong id="result-hectares">0 ha</strong></div>
+            <div><span>Perimeter</span><strong id="result-perimeter">0 m</strong></div>
+            <div><span>Selected points</span><strong id="result-points">0</strong></div>
+          </div>
+          <h4>Coordinates</h4>
+          <ol id="map-coordinate-list" class="coordinate-list"></ol>
+          <div class="land-model-actions">
+            <button id="generate-land-model" class="btn-map-primary" type="button" disabled>Generate 3D Land Model</button>
+            <button id="edit-land-measurement" class="map-control" type="button">Edit Measurement</button>
+          </div>
+          <button id="save-map-measurement" class="btn-map-primary save-measurement" type="button" disabled>Save Measurement</button>
+        </div>
+        <div class="saved-measurements">
+          <div class="panel-heading-row"><h4>Saved measurements</h4><button id="refresh-saved-measurements" class="text-button" type="button">Refresh</button></div>
+          <div id="saved-measurements-list" class="saved-measurements-list">Loading saved measurements...</div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <div class="panel">
+        <h3>Camera / Point Capture</h3>
+        <div id="wrap">
+          <video id="video" autoplay playsinline></video>
+          <canvas id="draw-canvas"></canvas>
+          <div id="point-markers"></div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-clear" class="btn-ghost">Clear</button>
+          <button id="btn-undo" class="btn-ghost">Undo</button>
+          <button id="btn-3d" class="btn-primary">3D View</button>
+
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <label class="small">Scale (m / px)</label>
+            <input id="scale-input" type="number" step="0.0001" value="0.01" style="width:110px;border-radius:8px;border:1px solid #ddd;padding:6px" />
+          </div>
+        </div>
+
+        <div id="summary">Distance: 0 m • Area: 0 m² (0 ft²)</div>
+        <div class="small" style="margin-top:8px">Tip: Click on the video to place points on the ground. Use scale to calibrate real-world size.</div>
+      </div>
+
+      <div class="panel side-panel">
+        <h4>Points</h4>
+        <div id="point-list" style="max-height:52vh;overflow:auto;padding-right:6px"></div>
+        <hr/>
+        <h4>Exports & Controls</h4>
+        <div class="field">
+          <button id="btn-export-obj" class="btn-ghost">Save OBJ</button>
+          <button id="btn-export-gltf" class="btn-ghost">Save GLTF</button>
+        </div>
+        <div class="field">
+          <button id="btn-screenshot" class="btn-ghost">Save 3D Screenshot</button>
+        </div>
+        <div style="margin-top:12px" class="small">3D View exports extruded polygon (height chosen by you inside 3D modal). Click the 3D model to see measurements (area, diameter).</div>
+      </div>
+    </div>
+
+    <footer>Made with ❤️ for Farmers — Click "3D View" to open interactive 3D model</footer>
+  </div>
+
+  <div class="modal" id="modal-3d" role="dialog" aria-hidden="true">
+    <div class="modal-inner">
+      <div class="modal-toolbar">
+        <button id="modal-close" class="btn-ghost">Close</button>
+        <button id="modal-export-obj" class="btn-ghost">Export OBJ</button>
+        <button id="modal-export-gltf" class="btn-ghost">Export GLTF</button>
+        <label style="margin-left:8px">Extrude height (m)</label>
+        <input id="extrude-height" type="number" step="0.01" value="0.2" style="width:80px;border-radius:8px;border:1px solid #ddd;padding:6px" />
+        <button id="modal-screenshot" class="btn-ghost" style="margin-left:auto">Screenshot</button>
+      </div>
+      <div id="three-container">
+        <div class="measure-bubble" id="three-info" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="land-model-modal" id="land-model-modal" hidden role="dialog" aria-modal="true" aria-labelledby="land-model-title">
+    <div class="land-model-shell">
+      <div class="land-model-header">
+        <div><span class="measure-kicker">Satellite survey</span><h2 id="land-model-title">3D Land Measurement</h2></div>
+        <button id="close-land-model" class="map-control" type="button">Back to Satellite Map</button>
+      </div>
+      <div class="land-model-layout">
+        <div class="land-model-stage">
+          <div id="land-model-loading" class="land-model-status">Generating 3D land model...</div>
+          <div id="land-model-error" class="land-model-status land-model-error" hidden></div>
+          <div id="land-model-canvas" class="land-model-canvas"></div>
+          <div class="land-model-compass">N</div>
+        </div>
+        <aside class="land-model-info">
+          <div class="land-model-heading"><span class="measure-kicker">Land Measurement</span><h3 id="land-model-name">Field measurement</h3><p class="visual-height-note">3D height is visual only; no elevation data is available.</p></div>
+          <div class="land-model-stats">
+            <div><span>Area</span><strong id="model-area-acres">0 ac</strong></div>
+            <div><span>Square meters</span><strong id="model-area-m2">0 m²</strong></div>
+            <div><span>Square feet</span><strong id="model-area-ft2">0 ft²</strong></div>
+            <div><span>Hectares</span><strong id="model-area-ha">0 ha</strong></div>
+            <div><span>Perimeter</span><strong id="model-perimeter">0 m</strong></div>
+            <div><span>Boundary points</span><strong id="model-point-count">0</strong></div>
+          </div>
+          <div class="model-meta"><strong>Measured</strong><span id="model-created-at">-</span></div>
+          <h4>Coordinates</h4><ol id="model-coordinate-list" class="coordinate-list"></ol>
+          <div class="land-model-controls">
+            <button id="model-top-view" class="map-control" type="button">Top View</button>
+            <button id="model-3d-view" class="map-control" type="button">3D View</button>
+            <button id="model-reset-camera" class="map-control" type="button">Reset Camera</button>
+            <button id="model-fullscreen" class="map-control" type="button">Fullscreen</button>
+            <button id="model-toggle-boundary" class="map-control" type="button">Hide Boundary</button>
+            <button id="model-toggle-labels" class="map-control" type="button">Hide Labels</button>
+            <button id="model-download-obj" class="map-control" type="button">Download 3D Model</button>
+            <button id="model-download-report" class="btn-map-primary" type="button">Download Measurement Report</button>
+            <button id="model-delete-measurement" class="map-control model-delete-button" type="button">Delete Measurement</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.156.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.156.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+    import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+
+    (function(){
+      // Elements
+      const video = document.getElementById('video');
+      const drawCanvas = document.getElementById('draw-canvas');
+      const ctx = drawCanvas.getContext('2d');
+      const markers = document.getElementById('point-markers');
+      const btnClear = document.getElementById('btn-clear');
+      const btnUndo = document.getElementById('btn-undo');
+      const btn3D = document.getElementById('btn-3d');
+      const scaleInput = document.getElementById('scale-input');
+      const summary = document.getElementById('summary');
+      const pointList = document.getElementById('point-list');
+      const btnExportOBJ = document.getElementById('btn-export-obj');
+      const btnExportGLTF = document.getElementById('btn-export-gltf');
+      const btnScreenshot = document.getElementById('btn-screenshot');
+
+      // 3D modal elements
+      const modal = document.getElementById('modal-3d');
+      const threeContainer = document.getElementById('three-container');
+      const modalClose = document.getElementById('modal-close');
+      const modalExportOBJ = document.getElementById('modal-export-obj');
+      const modalExportGLTF = document.getElementById('modal-export-gltf');
+      const modalScreenshot = document.getElementById('modal-screenshot');
+      const extrudeHeightInput = document.getElementById('extrude-height');
+      const threeInfo = document.getElementById('three-info');
+
+      // Data
+      let points = []; // each point: {x,y, screenX, screenY}
+      let scale = parseFloat(scaleInput.value) || 0.01; // meters per pixel
+
+      // Resize draw canvas to video size
+      function resizeCanvas(){
+        drawCanvas.width = video.clientWidth;
+        drawCanvas.height = video.clientHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+
+      // Start camera
+      async function startCamera(){
+        try{
+          const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}, audio:false});
+          video.srcObject = stream;
+          await video.play();
+          resizeCanvas();
+        }catch(e){
+          alert('Camera access denied or not available.');
+        }
+      }
+      startCamera();
+
+      // Helpers: add marker UI
+      function addMarker(x,y){
+        const m = document.createElement('div');
+        m.className = 'point-marker';
+        m.style.left = x + 'px';
+        m.style.top = y + 'px';
+        markers.appendChild(m);
+        return m;
+      }
+
+      function clearMarkers(){
+        markers.innerHTML = '';
+      }
+
+      // Add point on video click
+      video.addEventListener('click', (ev) => {
+        const rect = video.getBoundingClientRect();
+        const screenX = ev.clientX - rect.left;
+        const screenY = ev.clientY - rect.top;
+        const pxX = screenX;
+        const pxY = screenY;
+        points.push({pxX, pxY});
+        addMarker(screenX, screenY);
+        redraw();
+        updateSummary();
+        renderPointList();
+      });
+
+      // Draw lines on overlay canvas
+      function redraw(){
+        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+        if(points.length < 1) return;
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#00c853";
+        ctx.beginPath();
+        ctx.moveTo(points[0].pxX, points[0].pxY);
+        for(let i=1;i<points.length;i++){
+          ctx.lineTo(points[i].pxX, points[i].pxY);
+        }
+        ctx.stroke();
+
+        // Close polygon if >=3
+        if(points.length >= 3){
+          ctx.beginPath();
+          ctx.moveTo(points[0].pxX, points[0].pxY);
+          for(let i=1;i<points.length;i++) ctx.lineTo(points[i].pxX, points[i].pxY);
+          ctx.closePath();
+          ctx.globalAlpha = 0.08;
+          ctx.fillStyle = "#00c853";
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+
+        // draw distance labels between consecutive points
+        for(let i=1;i<points.length;i++){
+          drawDistanceLabel(points[i-1], points[i]);
+        }
+      }
+
+      function drawDistanceLabel(p1, p2){
+        const midX = (p1.pxX + p2.pxX)/2;
+        const midY = (p1.pxY + p2.pxY)/2;
+        const distPx = Math.hypot(p1.pxX - p2.pxX, p1.pxY - p2.pxY);
+        const distM = (distPx * scale).toFixed(2);
+        // simple label draw
+        ctx.font = "bold 13px Arial";
+        ctx.fillStyle = "#053018";
+        ctx.fillText(distM + " m", midX + 6, midY - 6);
+      }
+
+      // Summary: total distance and polygon area
+      function updateSummary(){
+        if(points.length < 2){
+          summary.textContent = 'Distance: 0 m • Area: 0 m² (0 ft²)';
+          return;
+        }
+        // total path length
+        let totalPx = 0;
+        for(let i=1;i<points.length;i++){
+          totalPx += Math.hypot(points[i].pxX - points[i-1].pxX, points[i].pxY - points[i-1].pxY);
+        }
+        const totalM = (totalPx * scale).toFixed(2);
+
+        // polygon area if >=3
+        let areaM2 = 0;
+        let areaFt2 = 0;
+        if(points.length >= 3){
+          const areaPx = polygonAreaPx(points);
+          areaM2 = (areaPx * scale * scale).toFixed(2);
+          areaFt2 = (areaM2 * 10.7639).toFixed(2);
+        }
+        summary.textContent = `Distance: ${totalM} m • Area: ${areaM2} m² (${areaFt2} ft²)`;
+      }
+
+      function polygonAreaPx(pts){
+        // Shoelace formula with screen coordinates (px)
+        let sum = 0;
+        for(let i=0;i<pts.length;i++){
+          const a = pts[i];
+          const b = pts[(i+1)%pts.length];
+          sum += (a.pxX * b.pxY) - (b.pxX * a.pxY);
+        }
+        return Math.abs(sum / 2);
+      }
+
+      // point list UI
+      function renderPointList(){
+        pointList.innerHTML = '';
+        points.forEach((p,i)=>{
+          const div = document.createElement('div');
+          div.style.display='flex';
+          div.style.justifyContent='space-between';
+          div.style.padding='6px 0';
+          div.style.borderBottom = '1px dashed #eee';
+          const pxToM = (val)=> (val * scale).toFixed(2);
+          div.innerHTML = `<div>#${i+1} — x:${pxToM(p.pxX)} m, y:${pxToM(p.pxY)} m</div>
+            <div><button data-index="${i}" class="remove-btn" style="border:0;background:transparent;color:#d32f2f;cursor:pointer">Remove</button></div>`;
+          pointList.appendChild(div);
+        });
+        // remove handlers
+        Array.from(document.querySelectorAll('.remove-btn')).forEach(btn=>{
+          btn.addEventListener('click', (ev)=>{
+            const idx = parseInt(btn.getAttribute('data-index'));
+            points.splice(idx,1);
+            rebuildMarkers();
+            redraw();
+            updateSummary();
+            renderPointList();
+          });
+        });
+      }
+
+      function rebuildMarkers(){
+        markers.innerHTML = '';
+        points.forEach(p => addMarker(p.pxX, p.pxY));
+      }
+
+      // Clear & Undo
+      btnClear.addEventListener('click', ()=>{
+        points = [];
+        markers.innerHTML = '';
+        ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height);
+        updateSummary();
+        renderPointList();
+      });
+      btnUndo.addEventListener('click', ()=>{
+        points.pop();
+        rebuildMarkers();
+        redraw();
+        updateSummary();
+        renderPointList();
+      });
+
+      // scale input change
+      scaleInput.addEventListener('change', ()=>{
+        scale = parseFloat(scaleInput.value) || 0.01;
+        updateSummary();
+        redraw();
+      });
+
+      // ------------- 3D Scene (Three.js) -------------
+      let renderer, scene, camera, controls, modelMesh;
+      function initThree(container){
+        // clear prev if any
+        while(container.firstChild) container.removeChild(container.firstChild);
+
+        renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xeaf6ec);
+
+        camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.01, 2000);
+        camera.position.set(0.8, 0.8, 0.8);
+
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0,0,0);
+        controls.update();
+
+        // grid + light
+        const grid = new THREE.GridHelper(10, 20, 0x0a3b1a, 0xe6f4ea);
+        grid.rotation.x = Math.PI/2;
+        scene.add(grid);
+
+        const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.9);
+        scene.add(hemi);
+        const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir.position.set(3,10,5);
+        scene.add(dir);
+
+        // handle resize
+        window.addEventListener('resize', ()=> {
+          if(!renderer) return;
+          renderer.setSize(container.clientWidth, container.clientHeight);
+          camera.aspect = container.clientWidth / container.clientHeight;
+          camera.updateProjectionMatrix();
+        });
+
+        function animate(){
+          requestAnimationFrame(animate);
+          if(!renderer || !controls || !scene || !camera) return;
+          controls.update(); 
+          renderer.render(scene, camera);
+        }
+        animate();
+      }
+
+      // Build three.js model from points
+      function build3DModel(extrudeHeight){
+        if(modelMesh){
+          scene.remove(modelMesh);
+          modelMesh.traverse(child=>{ if(child.geometry) child.geometry.dispose(); });
+          modelMesh = null;
+        }
+
+        if(points.length < 3) return;
+
+        const vertsMeters = points.map(p => ({ x: (p.pxX * scale), z: -(p.pxY * scale) }));
+        let cx = 0, cz = 0;
+        for(const v of vertsMeters){ cx += v.x; cz += v.z; }
+        cx /= vertsMeters.length; cz /= vertsMeters.length;
+        const shifted = vertsMeters.map(v => ({ x: v.x - cx, z: v.z - cz }));
+
+        const shape = new THREE.Shape();
+        shifted.forEach((v,i)=>{
+          if(i===0) shape.moveTo(v.x, v.z);
+          else shape.lineTo(v.x, v.z);
+        });
+        shape.closePath();
+
+        const extrudeSettings = { depth: extrudeHeight, bevelEnabled: false };
+        const geom = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        geom.rotateX(-Math.PI / 2);
+
+        const mat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, transparent:true, opacity:0.9, side: THREE.DoubleSide });
+        modelMesh = new THREE.Mesh(geom, mat);
+        modelMesh.position.set(0, 0, 0);
+        modelMesh.userData.isTerrain = true;
+        scene.add(modelMesh);
+
+        const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geom), new THREE.LineBasicMaterial({ color: 0x053018 }));
+        scene.add(wire);
+
+        const centroidMarker = new THREE.Mesh(new THREE.SphereGeometry(Math.max(0.01, extrudeHeight*0.08), 12, 12), new THREE.MeshBasicMaterial({ color: 0xffcc00 }));
+        centroidMarker.position.set(0, 0.02, 0);
+        scene.add(centroidMarker);
+
+        controls.target.set(0,0,0);
+        controls.update();
+        const bbox = new THREE.Box3().setFromObject(modelMesh);
+        const size = bbox.getSize(new THREE.Vector3());
+        const radius = Math.max(size.x, size.z);
+        camera.position.set(radius*1.5, radius*1.2, radius*1.5);
+        camera.lookAt(0,0,0);
+        controls.update();
+
+        // 3D model banne ke turant baad measurements dikhao
+        showModelMeasurements();
+      }
+
+      // compute measurements: area (m2) and max diameter (m)
+      function computeMeasurements(){
+        if(points.length < 3) return null;
+        const vertsMeters = points.map(p => ({ x: p.pxX * scale, z: -p.pxY * scale }));
+        let sum = 0;
+        for(let i=0;i<vertsMeters.length;i++){
+          const a = vertsMeters[i];
+          const b = vertsMeters[(i+1)%vertsMeters.length];
+          sum += (a.x * b.z) - (b.x * a.z);
+        }
+        const areaM2 = Math.abs(sum/2);
+        let maxD = 0;
+        for(let i=0;i<vertsMeters.length;i++){
+          for(let j=i+1;j<vertsMeters.length;j++){
+            const dx = vertsMeters[i].x - vertsMeters[j].x;
+            const dz = vertsMeters[i].z - vertsMeters[j].z;
+            const d = Math.hypot(dx, dz);
+            if(d > maxD){ maxD = d; }
+          }
+        }
+        return { areaM2, diameterM: maxD };
+      }
+
+      function showModelMeasurements(){
+        const m = computeMeasurements();
+        if(!m) return;
+        const areaFt2 = (m.areaM2 * 10.7639).toFixed(2);
+        const diameterM = m.diameterM.toFixed(3);
+        const text = `Area: ${m.areaM2.toFixed(3)} m² (${areaFt2} ft²) — Diameter: ${diameterM} m`;
+        threeInfo.style.display = 'block';
+        threeInfo.textContent = text;
+        setTimeout(()=>{ threeInfo.style.display='none'; }, 7000);
+      }
+
+      // Open 3D modal & init
+      btn3D.addEventListener('click', ()=>{
+        if(points.length < 3){
+          alert('Add at least 3 points to create 3D polygon.');
+          return;
+        }
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden','false');
+        initThree(threeContainer);
+        const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
+        build3DModel(extrudeH);
+      });
+
+      modalClose.addEventListener('click', ()=> {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden','true');
+        // Scene ko saaf karo
+        try{
+            scene.traverse(child => {
+                if(child.isMesh) {
+                    if(child.geometry) child.geometry.dispose();
+                    if(child.material) {
+                        if(Array.isArray(child.material)) {
+                            child.material.forEach(mat => mat.dispose());
+                        } else {
+                            child.material.dispose();
+                        }
+                    }
+                }
+            });
+            renderer.renderLists.dispose();
+            renderer.dispose();
+        } catch(e) {
+            console.error("Renderer disposal error:", e);
+        }
+        renderer = null;
+        threeContainer.innerHTML = '';
+      });
+
+      // Modal export handlers
+      modalExportOBJ.addEventListener('click', ()=>{
+        if(!modelMesh){ alert('3D model not built'); return; }
+        const exporter = new OBJExporter();
+        const objText = exporter.parse(modelMesh);
+        downloadText('model.obj', objText);
+      });
+      modalExportGLTF.addEventListener('click', ()=>{
+        if(!modelMesh){ alert('3D model not built'); return; }
+        const exporter = new GLTFExporter();
+        exporter.parse(modelMesh, function(result){
+          const out = JSON.stringify(result, null, 2);
+          downloadText('model.gltf', out);
+        }, {binary:false});
+      });
+      modalScreenshot.addEventListener('click', ()=>{
+        if(!renderer) return;
+        const dataURL = renderer.domElement.toDataURL('image/png');
+        downloadDataUrl('screenshot.png', dataURL);
+      });
+
+      // side-panel export triggers: open modal and export
+      btnExportOBJ.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+      btnExportGLTF.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+      btnScreenshot.addEventListener('click', ()=>{
+        btn3D.click();
+      });
+
+      extrudeHeightInput.addEventListener('change', ()=>{
+        if(renderer){
+          const extrudeH = parseFloat(extrudeHeightInput.value) || 0.2;
+          build3DModel(extrudeH);
+        }
+      });
+
+      function downloadText(filename, text){
+        const blob = new Blob([text], {type:'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+      }
+      function downloadDataUrl(filename, dataUrl){
+        const a = document.createElement('a');
+        a.href = dataUrl; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      // 3D मॉडल को Supabase में save करने के लिए (OBJ या GLTF text के रूप में)
+      async function save3DModelToSupabase(type, data, farmerId) {
+        // type: 'obj' या 'gltf'
+        // data: OBJ/GLTF text
+        // farmerId: जिससे लिंक करना हो (optional)
+        const { error } = await supabase
+          .from('models')
+          .insert([
+            { 
+              farmer_id: farmerId || null,
+              model_type: type,
+              model_data: data,
+              created_at: new Date().toISOString()
+            }
+          ]);
+        if (error) {
+          alert('Model save failed: ' + error.message);
+        } else {
+          alert('3D Model saved to Supabase!');
+        }
+      }
+
+      function init(){
+        redraw();
+        updateSummary();
+      }
+      init();
+
+    })();
+  </script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="../js/ar-measure-map.js"></script>
+  <script type="module" src="../js/ar-measure-3d.js"></script>
+   <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        includedLanguages: "aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu'",
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      "google_translate_element"
+    );
+  }
+</script>
+ 
+  <script type="module" src="../js/script.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>

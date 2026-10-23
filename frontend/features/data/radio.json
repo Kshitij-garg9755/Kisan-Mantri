@@ -1,0 +1,52 @@
+[
+  {
+    "title": "Daily Krishi Bulletin - Weather and Market Rates",
+    "title_hi": "दैनिक कृषि बुलेटिन - मौसम और मंडी भाव",
+    "host": "Krishi Bulletin Desk",
+    "category": "Agriculture News",
+    "description": "A short daily round-up of weather outlook and important market information for farmers.",
+    "audio_url": "",
+    "duration_seconds": 0,
+    "language": "Hindi"
+  },
+  {
+    "title": "Farming Tip of the Day - Balanced Fertiliser Use",
+    "title_hi": "आज की खेती टिप - संतुलित खाद का उपयोग",
+    "host": "Smart Farm Agri Team",
+    "category": "Farming Tips",
+    "description": "Practical guidance on using soil test based, balanced fertiliser to reduce cost and protect soil health.",
+    "audio_url": "",
+    "duration_seconds": 0,
+    "language": "Hindi"
+  },
+  {
+    "title": "Weather Alert Round-up",
+    "title_hi": "मौसम चेतावनी बुलेटिन",
+    "host": "Smart Farm Weather Desk",
+    "category": "Weather Alerts",
+    "description": "A brief audio advisory summarising weather conditions and precautions for the next few days.",
+    "audio_url": "",
+    "duration_seconds": 0,
+    "language": "Hindi"
+  },
+  {
+    "title": "Government Scheme Update",
+    "title_hi": "सरकारी योजना अपडेट",
+    "host": "Smart Farm Scheme Desk",
+    "category": "Government Schemes",
+    "description": "Announcements and reminders about agriculture schemes, application windows and required documents.",
+    "audio_url": "",
+    "duration_seconds": 0,
+    "language": "Hindi"
+  },
+  {
+    "title": "Crop Health & Disease Prevention Talk",
+    "title_hi": "फसल स्वास्थ्य और रोग रोकथाम",
+    "host": "Smart Farm Agri Team",
+    "category": "Farming Tips",
+    "description": "An educational talk on recognising common crop problems early and taking preventive action.",
+    "audio_url": "",
+    "duration_seconds": 0,
+    "language": "Hindi"
+  }
+]

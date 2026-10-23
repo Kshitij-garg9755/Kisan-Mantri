@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Kisan Radio | Smart Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../shared/feature.css" />
+    <link rel="stylesheet" href="kisan-radio.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+  
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+  <body class="sf-feature">
+    <div class="sf-topbar">
+      <div class="sf-shell">
+        <div>SMART FARM / KISAN RADIO</div>
+        <div>Audio programs • Farming tips • Weather alerts</div>
+      </div>
+    </div>
+
+    <header class="sf-header">
+      <div class="sf-shell">
+        <a class="sf-brand" href="../../pages/index.html"
+          ><strong>Smart Farm</strong><span>Kisan Radio</span></a
+        >
+        <nav class="sf-nav">
+          <a href="../schemes/schemes.html">योजनाएं</a>
+          <a href="../chaupal/chaupal.html">चौपाल</a>
+          <a href="../kisan-bank/kisan-bank.html">किसान बैंक</a>
+          <a href="../disease-diagnosis/disease-diagnosis.html">रोग निदान</a>
+          <a href="../satellite-ai/satellite-ai.html">उपग्रह AI</a>
+          <a class="active" href="kisan-radio.html">किसान रेडियो</a>
+        </nav>
+        <div class="sf-header-actions">
+          <a
+            class="sf-btn sf-btn-outline sf-btn-sm"
+            href="../../pages/index.html"
+            >← Smart Farm</a
+          >
+          <button
+            class="sf-btn sf-btn-dark sf-btn-sm"
+            id="sf-auth-btn"
+            type="button">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sf-main">
+      <div class="sf-shell">
+        <div class="sf-page-head">
+          <p class="sf-kicker">Listen &amp; learn</p>
+          <h1>Kisan Radio</h1>
+          <p>
+            Hands-free agriculture audio: daily bulletins, farming tips, weather
+            alerts and scheme updates. Play programs while you work in the
+            field.
+          </p>
+        </div>
+
+        <!-- Player -->
+        <section class="sf-panel radio-player">
+          <div class="radio-player-inner">
+            <div class="radio-now">
+              <span class="radio-now-label">Now playing</span>
+              <strong id="radio-title">No program selected</strong>
+              <span id="radio-host" class="sf-muted"></span>
+              <span id="radio-status" class="sf-pill sf-pill-muted"
+                >Stopped</span
+              >
+            </div>
+            <div class="radio-controls">
+              <button
+                class="sf-btn sf-btn-dark"
+                type="button"
+                id="radio-prev"
+                aria-label="Previous">
+                ⏮
+              </button>
+              <button
+                class="sf-btn sf-btn-primary radio-play"
+                type="button"
+                id="radio-play"
+                aria-label="Play">
+                ▶ Play
+              </button>
+              <button
+                class="sf-btn sf-btn-dark"
+                type="button"
+                id="radio-next"
+                aria-label="Next">
+                ⏭
+              </button>
+            </div>
+            <div class="radio-progress-row">
+              <span id="radio-current-time">0:00</span>
+              <input
+                type="range"
+                id="radio-progress"
+                class="radio-progress"
+                min="0"
+                max="100"
+                value="0"
+                aria-label="Seek" />
+              <span id="radio-duration">0:00</span>
+            </div>
+            <div class="radio-volume-row">
+              <span aria-hidden="true">🔊</span>
+              <input
+                type="range"
+                id="radio-volume"
+                class="radio-progress"
+                min="0"
+                max="100"
+                value="80"
+                aria-label="Volume" />
+              <button
+                class="sf-btn sf-btn-ghost sf-btn-sm"
+                type="button"
+                id="radio-save">
+                ☆ Save program
+              </button>
+            </div>
+          </div>
+          <div
+            id="radio-no-audio"
+            class="sf-notice sf-notice-warn sf-hidden"
+            style="margin-top: 14px">
+            🎧 Audio files are not available yet. Programs are listed below, but
+            no audio is attached — please check back later. (This avoids a
+            broken player.)
+          </div>
+          <audio id="radio-audio" preload="none"></audio>
+        </section>
+
+        <!-- Category filter -->
+        <div class="radio-filters" style="margin-top: 18px">
+          <select class="sf-select" id="radio-category">
+            <option value="">All categories</option>
+          </select>
+          <label class="radio-saved-toggle"
+            ><input type="checkbox" id="radio-only-saved" /> Saved only</label
+          >
+        </div>
+
+        <div id="radio-status-msg" class="sf-loading">Loading programs…</div>
+        <div
+          id="radio-list"
+          class="sf-grid sf-grid-3"
+          style="margin-top: 14px"></div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">
+      <div class="sf-shell">
+        Smart Farm · Kisan Radio · Audio programs play only when a real audio
+        file is attached.
+      </div>
+    </footer>
+
+    <script src="../shared/feature.js"></script>
+    <script src="kisan-radio.js"></script>
+  
+<script src="../../js/app-navigation.js" defer></script>
+<script src="../../js/site-language.js" defer></script>
+</body>
+</html>

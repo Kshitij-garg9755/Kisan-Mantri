@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Kisan Bank | Smart Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../shared/feature.css" />
+    <link rel="stylesheet" href="kisan-bank.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+  
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+  <body class="sf-feature">
+    <div class="sf-topbar">
+      <div class="sf-shell">
+        <div>SMART FARM / KISAN BANK</div>
+        <div>Financial information • Safe &amp; secure</div>
+      </div>
+    </div>
+
+    <header class="sf-header">
+      <div class="sf-shell">
+        <a class="sf-brand" href="../../pages/index.html">
+          <strong>Smart Farm</strong>
+          <span>Kisan Bank</span>
+        </a>
+        <nav class="sf-nav">
+          <a href="../schemes/schemes.html">योजनाएं</a>
+          <a href="../chaupal/chaupal.html">चौपाल</a>
+          <a class="active" href="kisan-bank.html">किसान बैंक</a>
+          <a href="../disease-diagnosis/disease-diagnosis.html">रोग निदान</a>
+          <a href="../satellite-ai/satellite-ai.html">उपग्रह AI</a>
+          <a href="../kisan-radio/kisan-radio.html">किसान रेडियो</a>
+        </nav>
+        <div class="sf-header-actions">
+          <a
+            class="sf-btn sf-btn-outline sf-btn-sm"
+            href="../../pages/index.html"
+            >← Smart Farm</a
+          >
+          <button
+            class="sf-btn sf-btn-dark sf-btn-sm"
+            id="sf-auth-btn"
+            type="button">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sf-main">
+      <div class="sf-shell">
+        <div class="sf-page-head">
+          <p class="sf-kicker">Agricultural finance</p>
+          <h1>Kisan Bank</h1>
+          <p>
+            Understand agricultural loans, subsidies and insurance, and estimate
+            repayments before you borrow. This is an information and calculator
+            section — it does not perform any real banking transaction.
+          </p>
+        </div>
+
+        <div class="sf-notice sf-notice-warn" role="alert">
+          🔒 <strong>Safety first:</strong> This site will never ask for your
+          ATM PIN, CVV, OTP, password or full account number. If anyone asks for
+          these, it is fraud — report it immediately.
+        </div>
+
+        <!-- Calculators -->
+        <section style="margin-top: 20px">
+          <h2 class="bank-section-title">Calculators</h2>
+          <div class="sf-grid sf-grid-3">
+            <div class="sf-card bank-calc">
+              <h3>EMI calculator</h3>
+              <div class="sf-field">
+                <label for="emi-amount">Loan amount (₹)</label
+                ><input
+                  class="sf-input"
+                  id="emi-amount"
+                  type="number"
+                  min="0"
+                  value="100000" />
+              </div>
+              <div class="sf-field">
+                <label for="emi-rate">Annual interest rate (%)</label
+                ><input
+                  class="sf-input"
+                  id="emi-rate"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value="7" />
+              </div>
+              <div class="sf-field">
+                <label for="emi-months">Tenure (months)</label
+                ><input
+                  class="sf-input"
+                  id="emi-months"
+                  type="number"
+                  min="1"
+                  value="24" />
+              </div>
+              <div class="bank-result" id="emi-result"></div>
+            </div>
+
+            <div class="sf-card bank-calc">
+              <h3>Crop loan estimator</h3>
+              <div class="sf-field">
+                <label for="crop-amount">Loan amount (₹)</label
+                ><input
+                  class="sf-input"
+                  id="crop-amount"
+                  type="number"
+                  min="0"
+                  value="150000" />
+              </div>
+              <div class="sf-field">
+                <label for="crop-months">Season length (months)</label
+                ><input
+                  class="sf-input"
+                  id="crop-months"
+                  type="number"
+                  min="1"
+                  value="6" />
+              </div>
+              <div class="sf-field">
+                <label for="crop-subvention">Timely repayment subvention</label>
+                <select class="sf-select" id="crop-subvention">
+                  <option value="1">Yes (approx. 3% less)</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              <div class="bank-result" id="crop-result"></div>
+            </div>
+
+            <div class="sf-card bank-calc">
+              <h3>Savings growth</h3>
+              <div class="sf-field">
+                <label for="save-monthly">Monthly saving (₹)</label
+                ><input
+                  class="sf-input"
+                  id="save-monthly"
+                  type="number"
+                  min="0"
+                  value="2000" />
+              </div>
+              <div class="sf-field">
+                <label for="save-years">Years</label
+                ><input
+                  class="sf-input"
+                  id="save-years"
+                  type="number"
+                  min="1"
+                  value="5" />
+              </div>
+              <div class="sf-field">
+                <label for="save-rate">Annual interest (%)</label
+                ><input
+                  class="sf-input"
+                  id="save-rate"
+                  type="number"
+                  min="0"
+                  step="0.1"
+                  value="6.5" />
+              </div>
+              <div class="bank-result" id="save-result"></div>
+            </div>
+          </div>
+          <p class="sf-muted bank-calc-note">
+            Calculators give an estimate only and ignore processing fees, taxes
+            and bank-specific rules. Confirm the exact figures with your bank.
+          </p>
+        </section>
+
+        <!-- Scheme-backed finance info -->
+        <section style="margin-top: 26px">
+          <h2 class="bank-section-title">
+            Loans, subsidy &amp; insurance schemes
+          </h2>
+          <div id="bank-status" class="sf-loading">
+            Loading financial information…
+          </div>
+          <div
+            id="bank-schemes"
+            class="sf-grid sf-grid-3"
+            style="margin-top: 12px"></div>
+        </section>
+
+        <!-- Awareness articles -->
+        <section style="margin-top: 26px">
+          <h2 class="bank-section-title">Financial awareness</h2>
+          <div id="bank-articles" class="sf-grid sf-grid-2"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="sf-footer">
+      <div class="sf-shell">
+        Smart Farm · Kisan Bank · Information only. Always borrow from a
+        regulated bank / institution.
+      </div>
+    </footer>
+
+    <script src="../shared/feature.js"></script>
+    <script src="kisan-bank.js"></script>
+  
+<script src="../../js/app-navigation.js" defer></script>
+<script src="../../js/site-language.js" defer></script>
+</body>
+</html>

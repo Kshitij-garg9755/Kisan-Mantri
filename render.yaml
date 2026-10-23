@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: kisan-mantri
+    runtime: python
+    region: singapore
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 app:app
+    healthCheckPath: /api/marketplace/health
+    disk:
+      name: kisan-mantri-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: SMART_FARM_DATA_DIR
+        value: /var/data
+      - key: SMART_FARM_SECRET_KEY
+        generateValue: true
+      - key: SMART_FARM_DEBUG
+        value: "0"
+      - key: KISAN_MANTRI_DEMO_AUTH
+        value: "false"
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: /etc/secrets/firebase-admin.json
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: FIREBASE_APP_ID
+        sync: false

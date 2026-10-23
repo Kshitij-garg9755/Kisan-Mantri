@@ -1,0 +1,48 @@
+/* Kisan Bank — feature-specific styles */
+
+.bank-section-title {
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.bank-calc {
+  display: flex;
+  flex-direction: column;
+}
+.bank-result {
+  margin-top: auto;
+  padding: 12px;
+  background: #f0f7f1;
+  border-radius: var(--sf-radius);
+  font-size: 13px;
+}
+.bank-result .bank-result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 3px 0;
+}
+.bank-result .bank-result-row strong {
+  color: var(--sf-green);
+}
+.bank-result .bank-result-total {
+  border-top: 1px solid var(--sf-line);
+  margin-top: 6px;
+  padding-top: 6px;
+  font-weight: 800;
+}
+
+.bank-calc-note {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.bank-scheme-card {
+  display: flex;
+  flex-direction: column;
+}
+.bank-scheme-card .sf-btn {
+  margin-top: auto;
+}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+   <title>AgriVerse | Smart Farm</title>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="../css/agriverse.css?v=profile-photo-4">
+   <link rel="stylesheet" href="../css/theme.css">
+  
+<link rel="stylesheet" href="../css/app-theme.css">
+<link rel="stylesheet" href="../css/agriverse-reels.css">
+</head>
+<body>
+  <header class="av-header">
+    <a class="brand" href="/"><span>🌾</span><strong>AgriVerse</strong><small>Learn. Share. Grow.</small></a>
+    <nav>
+      <a href="/">Smart Farm</a>
+      <a class="active" href="#home">Social</a>
+      <a href="#reels">Reels</a>
+      <a href="#video_home">Video</a>
+      <a href="#messages">Messages</a>
+      <a href="#notifications">Notifications</a>
+      <a href="#create">Create</a>
+      <a href="#profile">Profile</a>
+    </nav>
+    <button id="login-link" class="button dark">Farmer login</button>
+  </header>
+
+  <main>
+    <section id="home" class="av-hero">
+      <div><p class="kicker">THE FARMER COMMUNITY</p><h1>Knowledge grows<br><em>when we share it.</em></h1><p class="hero-copy">A real, practical space for farmers to exchange field wisdom, discover new methods, and grow together.</p><div class="hero-actions"><a class="button lime" href="#create">Share something</a><a class="text-link" href="#reels">Watch the latest reels <span>→</span></a></div></div>
+      <div class="hero-art"><div class="sun"></div><div class="field field-one"></div><div class="field field-two"></div><div class="field field-three"></div><span class="art-label">FIELD NOTES / 01</span></div>
+    </section>
+
+    <section id="social_feed" class="section feed-section">
+      <div class="section-heading"><div><p class="kicker">FROM THE COMMUNITY</p><h2>Fresh from the fields</h2></div><div class="feed-tabs"><button class="tab active" data-filter="all">All</button><button class="tab" data-filter="post">Posts</button><button class="tab" data-filter="reel">Reels</button></div></div>
+      <div id="feed" class="feed-grid"><p class="empty">Loading the community feed...</p></div>
+    </section>
+
+    <section id="reels" class="section dark-section reels-screen" aria-label="Short farming videos">
+      <div class="reels-topbar"><button id="close-reels" class="reels-back" type="button" aria-label="Back to AgriVerse">&#8592;</button><strong>Reels</strong><span class="reels-hint">Swipe up</span></div>
+      <div id="reels-feed" class="reels-strip"><p class="empty">No reels uploaded yet. Share the first field lesson.</p></div>
+    </section>
+
+    <!-- YouTube-style Video Section -->
+    <section id="video_home" class="section video-section">
+      <div class="section-heading"><div><p class="kicker">AGRIVERSE VIDEO</p><h2>Farming Masterclasses</h2></div><a class="button lime" href="#create_video">Upload Video</a></div>
+      <div id="videos-feed" class="video-grid"><p class="empty">Loading videos...</p></div>
+    </section>
+
+    <section id="watch" class="section watch-section" style="display:none;">
+      <div id="watch-container"></div>
+    </section>
+
+    <section id="messages" class="section messages-section" style="display:none;">
+      <div class="section-heading"><div><p class="kicker">DIRECT MESSAGES</p><h2>Farmer Chats</h2></div><button class="button lime" id="start-chat-btn">Start Chat</button></div>
+      <div class="chat-container">
+        <div class="conversation-list" id="conv-list"></div>
+        <div class="chat-window" id="chat-window"><p class="empty">Select a conversation to start messaging.</p></div>
+      </div>
+    </section>
+
+    <section id="notifications" class="section notifications-section" style="display:none;">
+      <div class="section-heading"><div><p class="kicker">UPDATES</p><h2>Notifications</h2></div></div>
+      <div id="notif-list" class="notif-list"><p class="empty">No notifications yet.</p></div>
+    </section>
+
+    <section id="create" class="section create-section"><div><p class="kicker">YOUR FIELD NOTES</p><h2>Put your experience<br>into the circle.</h2><p class="muted">Posts are public to the farmer community. Videos are stored permanently before they appear in the feed.</p></div><form id="create-form" class="create-form"><div class="mode-switch"><button type="button" class="mode active" data-kind="post">Post</button><button type="button" class="mode" data-kind="reel">Upload Reel</button><button type="button" class="mode" data-kind="video">Upload Long Video</button></div><input id="post-kind" type="hidden" value="post"><label>Caption <textarea id="caption" rows="4" placeholder="What did you learn in the field today?"></textarea></label><div id="video-fields" class="video-fields" hidden><label>Video file <input id="video" type="file" accept="video/*"></label><label>Title <input id="title" placeholder="A clear title for your lesson"></label><label>Description <textarea id="description" rows="3" placeholder="What will farmers learn?"></textarea></label><div class="two-col"><label>Crop <input id="crop" placeholder="e.g. Wheat"></label><label>Category <input id="category" placeholder="e.g. Soil health"></label><label>Language <input id="language" placeholder="e.g. Hindi"></label><label>Tags <input id="tags" placeholder="#organic #irrigation"></label></div></div><button class="button lime" type="submit">Publish to AgriVerse</button><p id="form-message" class="form-message"></p></form></section>
+
+    <section id="profile" class="section profile-section"><div class="section-heading profile-page-heading"><div><p class="kicker">YOUR COMMUNITY SPACE</p><h2>My profile</h2></div><span class="profile-page-note"><span aria-hidden="true">&#10022;</span> Learn. Share. Grow.</span></div><div id="profile-card" class="profile-card"><p class="empty">Log in to see your profile and posts.</p></div></section>
+
+    <section id="manage-content" class="section profile-section" style="display:none;"><div class="manage-page-heading"><a href="#profile" class="manage-back-link"><span aria-hidden="true">&larr;</span> Back to profile</a><p class="kicker">CONTENT SETTINGS</p><h2>Manage your content</h2><p>Keep your AgriVerse videos organized and up to date.</p></div><div id="manage-content-card" class="profile-card"><p class="empty">Loading your content library...</p></div></section>
+  </main>
+  <footer><a href="/">← Back to Smart Farm</a><span>AgriVerse / Learn. Share. Grow.</span></footer>
+   
+  
+  <script src="../js/dev-config.js"></script>
+  <script src="../js/app-navigation.js"></script>
+  <script src="../js/agriverse.js?v=profile-photo-4"></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>

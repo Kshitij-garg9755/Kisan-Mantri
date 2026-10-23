@@ -1,0 +1,144 @@
+/* Crop Disease Diagnosis — feature-specific styles */
+
+.diag-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+.diag-main {
+  min-width: 0;
+}
+.diag-side {
+  position: sticky;
+  top: 86px;
+}
+
+.diag-form h3 {
+  font-size: 16px;
+  margin: 18px 0 8px;
+}
+.diag-form h3:first-child {
+  margin-top: 0;
+}
+
+.diag-upload {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.diag-drop {
+  flex: 1;
+  min-width: 220px;
+  min-height: 130px;
+  border: 2px dashed var(--sf-line);
+  border-radius: var(--sf-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--sf-muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
+}
+.diag-drop:hover {
+  border-color: var(--sf-green);
+  color: var(--sf-green);
+}
+.diag-drop-icon {
+  font-size: 34px;
+}
+.diag-upload-actions {
+  display: flex;
+  align-items: center;
+}
+.diag-hint {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.diag-preview {
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+  border-radius: var(--sf-radius);
+  border: 1px solid var(--sf-line);
+  margin: 14px 0;
+  background: #f7f5ed;
+}
+
+.diag-status-badge {
+  margin-bottom: 10px;
+}
+.diag-result-title {
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  margin: 6px 0;
+}
+.diag-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+.diag-result-grid .diag-result-item {
+  background: #f7f5ed;
+  border-radius: var(--sf-radius);
+  padding: 10px 12px;
+}
+.diag-result-grid .diag-result-item span {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sf-green);
+  font-weight: 800;
+}
+.diag-result-grid .diag-result-item strong {
+  font-size: 15px;
+}
+
+.diag-history-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0efe9;
+}
+.diag-history-item img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: var(--sf-radius);
+  flex-shrink: 0;
+  background: #eee;
+}
+.diag-history-item .diag-history-body {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+}
+.diag-history-item strong {
+  display: block;
+  font-size: 13px;
+}
+.diag-history-item button {
+  align-self: start;
+}
+
+@media (max-width: 900px) {
+  .diag-layout {
+    grid-template-columns: 1fr;
+  }
+  .diag-side {
+    position: static;
+  }
+}
+@media (max-width: 560px) {
+  .diag-result-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="hi">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <title>Kisan Chaupal | Smart Farm</title>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../shared/feature.css">
+ <link rel="stylesheet" href="chaupal.css">
+ <link rel="stylesheet" href="../../css/theme.css">
+
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+<body class="sf-feature">
+ <div class="sf-topbar">
+    <div class="sf-shell">
+      <div>SMART FARM / KISAN CHAUPAL</div>
+      <div>Farmer community • Questions &amp; answers</div>
+    </div>
+ </div>
+
+ <header class="sf-header">
+    <div class="sf-shell">
+      <a class="sf-brand" href="../../pages/index.html">
+        <strong>Smart Farm</strong>
+        <span>Kisan Chaupal</span>
+      </a>
+      <nav class="sf-nav">
+        <a href="../schemes/schemes.html">योजनाएं</a>
+        <a class="active" href="chaupal.html">चौपाल</a>
+        <a href="../kisan-bank/kisan-bank.html">किसान बैंक</a>
+        <a href="../disease-diagnosis/disease-diagnosis.html">रोग निदान</a>
+        <a href="../satellite-ai/satellite-ai.html">उपग्रह AI</a>
+        <a href="../kisan-radio/kisan-radio.html">किसान रेडियो</a>
+      </nav>
+      <div class="sf-header-actions">
+        <a class="sf-btn sf-btn-outline sf-btn-sm" href="#notifications" id="sf-notif-link-nav">🔔 <span id="sf-notif-count">0</span></a>
+        <button class="sf-btn sf-btn-dark sf-btn-sm" id="sf-auth-btn" type="button">Login</button>
+      </div>
+    </div>
+ </header>
+
+ <main class="sf-main">
+    <div class="sf-shell chaupal-layout">
+      <!-- Left: composer + feed -->
+      <div class="chaupal-main">
+        <div class="sf-page-head">
+          <p class="sf-kicker">Community</p>
+          <h1>Kisan Chaupal</h1>
+          <p>Ask questions, share field notes and photos, and learn from other farmers. Be respectful — this is a shared space for the whole farming community.</p>
+        </div>
+
+        <!-- Composer -->
+        <section class="sf-panel chaupal-composer">
+          <h3>Share with the community</h3>
+          <div id="composer-auth-note" class="sf-notice sf-hidden">Please <a href="../../pages/login.html">log in</a> to post, comment or like.</div>
+          <div id="composer-body">
+            <div class="sf-field">
+              <label for="post-category">Category</label>
+              <select class="sf-select" id="post-category">
+                <option>General</option>
+                <option>Wheat</option>
+                <option>Rice / Paddy</option>
+                <option>Vegetables</option>
+                <option>Pulses</option>
+                <option>Crop Disease</option>
+                <option>Soil Health</option>
+                <option>Irrigation</option>
+                <option>Market / Mandi</option>
+                <option>Government Schemes</option>
+              </select>
+            </div>
+            <div class="sf-field">
+              <label for="post-caption">Your message</label>
+              <textarea class="sf-textarea" id="post-caption" rows="4" placeholder="What did you learn in the field today?"></textarea>
+            </div>
+            <div class="sf-field">
+              <label for="post-image">Photo (optional)</label>
+              <input class="sf-input" id="post-image" type="file" accept="image/png,image/jpeg,image/webp">
+              <small class="sf-muted">JPG, PNG or WEBP, up to 5 MB.</small>
+            </div>
+            <div class="sf-row">
+              <button class="sf-btn sf-btn-primary" id="post-submit" type="button">Publish</button>
+              <span id="composer-msg" class="sf-muted"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Feed filters -->
+        <form class="chaupal-filters" id="chaupal-filters">
+          <input class="sf-input" id="chaupal-q" type="search" placeholder="Search posts…">
+          <select class="sf-select" id="chaupal-category">
+            <option value="">All categories</option>
+            <option>General</option><option>Wheat</option><option>Rice / Paddy</option>
+            <option>Vegetables</option><option>Pulses</option><option>Crop Disease</option>
+            <option>Soil Health</option><option>Irrigation</option><option>Market / Mandi</option>
+            <option>Government Schemes</option>
+          </select>
+          <select class="sf-select" id="chaupal-kind">
+            <option value="">All posts</option>
+            <option value="post">Text / photo</option>
+          </select>
+          <button class="sf-btn sf-btn-dark" type="submit">Search</button>
+        </form>
+
+        <div id="feed-status" class="sf-loading">Loading the community feed…</div>
+        <section id="chaupal-feed" class="chaupal-feed"></section>
+      </div>
+
+      <!-- Right: farmers + notifications -->
+      <aside class="chaupal-side">
+        <section class="sf-panel">
+          <h3>Find farmers</h3>
+          <div class="sf-field">
+            <input class="sf-input" id="farmer-search" type="search" placeholder="Search by name">
+          </div>
+          <div id="farmer-list" class="chaupal-farmer-list"><p class="sf-muted">Loading farmers…</p></div>
+        </section>
+
+        <section class="sf-panel" id="notifications">
+          <h3>Notifications</h3>
+          <div id="notif-list"><p class="sf-muted">Log in to see notifications.</p></div>
+        </section>
+      </aside>
+    </div>
+ </main>
+
+ <footer class="sf-footer">
+    <div class="sf-shell">Smart Farm · Kisan Chaupal · Posting requires login. You can only edit or delete your own content.</div>
+ </footer>
+
+  <script src="../../js/app-navigation.js"></script>
+  <script src="../shared/feature.js"></script>
+  <script src="chaupal.js"></script>
+  <script src="../../js/site-language.js" defer></script>
+</body>
+</html>

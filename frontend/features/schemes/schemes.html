@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Government Schemes | Smart Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../shared/feature.css" />
+    <link rel="stylesheet" href="schemes.css" />
+    <link rel="stylesheet" href="../../css/theme.css" />
+  
+<link rel="stylesheet" href="../../css/app-theme.css">
+</head>
+  <body class="sf-feature">
+    <div class="sf-topbar">
+      <div class="sf-shell">
+        <div>SMART FARM / GOVERNMENT SCHEMES</div>
+        <div>Official information • Verified links</div>
+      </div>
+    </div>
+
+    <header class="sf-header">
+      <div class="sf-shell">
+        <a class="sf-brand" href="../../pages/index.html">
+          <strong>Smart Farm</strong>
+          <span>Government Schemes</span>
+        </a>
+        <nav class="sf-nav">
+          <a class="active" href="schemes.html">योजनाएं</a>
+          <a href="../chaupal/chaupal.html">चौपाल</a>
+          <a href="../kisan-bank/kisan-bank.html">किसान बैंक</a>
+          <a href="../disease-diagnosis/disease-diagnosis.html">रोग निदान</a>
+          <a href="../satellite-ai/satellite-ai.html">उपग्रह AI</a>
+          <a href="../kisan-radio/kisan-radio.html">किसान रेडियो</a>
+        </nav>
+        <div class="sf-header-actions">
+          <a
+            class="sf-btn sf-btn-outline sf-btn-sm"
+            href="../../pages/index.html"
+            >← Smart Farm</a
+          >
+          <button
+            class="sf-btn sf-btn-dark sf-btn-sm"
+            id="sf-auth-btn"
+            type="button">
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="sf-main">
+      <div class="sf-shell">
+        <div class="sf-page-head">
+          <p class="sf-kicker">Support for farmers</p>
+          <h1>Government Schemes</h1>
+          <p>
+            Browse agriculture schemes, check eligibility, see the documents you
+            need and apply through the <strong>official</strong> portal. All
+            scheme details are maintained by administrators and must be verified
+            against the official source before applying.
+          </p>
+        </div>
+
+        <div class="sf-notice sf-notice-warn" role="note">
+          ⚠️ This page shows scheme information only. Always confirm every
+          detail on the official government portal (linked on each scheme)
+          before applying. Do not pay any agent.
+        </div>
+
+        <!-- Filters -->
+        <form
+          class="sf-card schemes-filters"
+          id="scheme-filters"
+          style="margin-top: 18px">
+          <div class="sf-field">
+            <label for="scheme-q">Search</label>
+            <input
+              class="sf-input"
+              id="scheme-q"
+              type="search"
+              placeholder="e.g. Kisan, insurance, loan, pension" />
+          </div>
+          <div class="sf-field">
+            <label for="scheme-state">State</label>
+            <select class="sf-select" id="scheme-state">
+              <option value="">All states</option>
+            </select>
+          </div>
+          <div class="sf-field">
+            <label for="scheme-category">Category</label>
+            <select class="sf-select" id="scheme-category">
+              <option value="">All categories</option>
+            </select>
+          </div>
+          <div class="sf-field">
+            <label for="scheme-farmer">Farmer category</label>
+            <select class="sf-select" id="scheme-farmer">
+              <option value="">All farmers</option>
+            </select>
+          </div>
+          <div class="schemes-filter-actions">
+            <button class="sf-btn sf-btn-primary" type="submit">
+              Apply filters
+            </button>
+            <button class="sf-btn sf-btn-ghost" type="button" id="scheme-reset">
+              Reset
+            </button>
+            <label class="schemes-checkbox"
+              ><input type="checkbox" id="scheme-only-saved" /> Saved
+              only</label
+            >
+          </div>
+        </form>
+
+        <div id="scheme-status" class="sf-loading" style="margin-top: 16px">
+          Loading schemes…
+        </div>
+        <div
+          id="scheme-grid"
+          class="sf-grid sf-grid-3"
+          style="margin-top: 16px"></div>
+      </div>
+    </main>
+
+    <footer class="sf-footer">
+      <div class="sf-shell">
+        Smart Farm · Government Schemes · Verify all details on the official
+        portal.
+      </div>
+    </footer>
+
+    <!-- Scheme details drawer -->
+    <div id="scheme-detail" class="scheme-detail-backdrop sf-hidden">
+      <div
+        class="scheme-detail"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="scheme-detail-title">
+        <button
+          class="scheme-detail-close"
+          id="scheme-detail-close"
+          aria-label="Close">
+          ×
+        </button>
+        <div id="scheme-detail-body"></div>
+      </div>
+    </div>
+
+    <script src="../shared/feature.js"></script>
+    <script src="schemes.js"></script>
+  
+<script src="../../js/app-navigation.js" defer></script>
+<script src="../../js/site-language.js" defer></script>
+</body>
+</html>

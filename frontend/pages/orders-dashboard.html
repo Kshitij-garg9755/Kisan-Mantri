@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Orders Dashboard - SMART FARM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/orders.css">
+  <link rel="stylesheet" href="../css/kk.css">
+  <link rel="stylesheet" href="../css/google.css">
+  <link rel="stylesheet" href="../css/ui-refresh.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <style>
+    .layout{display:grid;grid-template-columns:1fr 1.2fr;gap:22px}
+    .panel{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:18px}
+    .panel h3{margin-top:0}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-grid .full{grid-column:1 / -1}
+    .panel input,.panel select,.panel textarea{width:100%;padding:10px 12px;border:1px solid #e6e6e6;border-radius:10px}
+    .panel button{padding:10px 14px;border-radius:10px;border:none;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+    .tools{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+    table.dash{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    table.dash th,table.dash td{padding:12px 14px;text-align:left;border-bottom:1px solid #eee}
+    table.dash th{background:#f6faf7;cursor:pointer;user-select:none}
+    .status{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700}
+    .status.pending{background:#fff4e5;color:#8a5a1f}
+    .status.confirmed{background:#e8f7ee;color:#1f6b40}
+    .status.shipped{background:#e6efff;color:#173e8a}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+  </style>
+
+<link rel="stylesheet" href="../css/app-theme.css">
+</head>
+<body class="page-orders">
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div>✉️ gargkshitij@658gmail.com</div>
+      <div>📞 +91 8871368782</div>
+      <div class="socials"></div>
+      <div id="google_translate_element"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <h1>SMART FARM</h1>
+      </div>
+      <nav class="nav">
+        <a href="../pages/index.html#home">Home</a>
+        <a href="../pages/Grains.html">Grains</a>
+        <a href="../pages/vegetables-dashboard.html">Vegetables</a>
+        <a href="../pages/products-dashboard.html">Products</a>
+        <a href="../pages/orders-dashboard.html">Orders</a>
+        <a href="../marketplace/marketplace.html">Farmer Marketplace</a>
+        <a href="../pages/about-dashboard.html">About</a>
+        <a href="../pages/contact-dashboard.html">Contact</a>
+       
+      </nav>
+      <div class="cta">
+        <button class="btn btn-outline">Chat & Quote</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h4 class="badge">Dashboard</h4>
+      <h1>Orders & Checkout</h1>
+      <p class="hero-sub">Create orders and track their status.</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="layout">
+      <div class="panel">
+        <h3>Create Order</h3>
+        <form id="order-form" autocomplete="on">
+          <div class="form-grid">
+            <div>
+              <label for="of-name">Customer Name</label>
+              <input type="text" id="of-name" placeholder="Your name" required>
+            </div>
+            <div>
+              <label for="of-phone">Phone</label>
+              <input type="tel" id="of-phone" placeholder="+91 ..." required>
+            </div>
+            <div>
+              <label for="of-product">Product</label>
+              <input type="text" id="of-product" placeholder="e.g., Wheat" required>
+            </div>
+            <div>
+              <label for="of-qty">Quantity</label>
+              <input type="number" id="of-qty" placeholder="e.g., 5" min="1" required>
+            </div>
+            <div class="full">
+              <label for="of-address">Address</label>
+              <textarea id="of-address" rows="3" placeholder="Delivery address" required></textarea>
+            </div>
+            <div>
+              <label for="of-payment">Payment</label>
+              <select id="of-payment">
+                <option>COD</option>
+                <option>UPI</option>
+                <option>Card</option>
+              </select>
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <button type="submit">Place Order</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <h3>Cart (Saved Items)</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div id="cart-summary" style="color:var(--muted)">0 items</div>
+          <button id="cart-clear" class="btn small" type="button" style="background:#b42318">Clear Cart</button>
+        </div>
+        <div style="overflow:auto;max-height:260px">
+          <table class="dash" id="cart-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Use</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Orders</h3>
+        <div class="tools">
+          <label class="sr-only" for="orders-search">Search orders</label>
+          <input type="search" id="orders-search" placeholder="Search by name or product..." />
+          <div style="color:var(--muted)">Click headers to sort</div>
+        </div>
+        <div style="overflow:auto">
+          <table class="dash" id="orders-table">
+            <thead>
+              <tr>
+                <th data-key="id">Order ID</th>
+                <th data-key="name">Name</th>
+                <th data-key="product">Product</th>
+                <th data-key="qty">Qty</th>
+                <th data-key="status">Status</th>
+                <th data-key="created">Created</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="newsletter">
+      <h3>Need Help?</h3>
+      <p>Use Chat & Quote or call us for order assistance.</p>
+      <a class="btn btn-primary" href="../pages/index.html#home">Back to Home</a>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+      includedLanguages: 'aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script>
+    (function(){
+      var currentKey = 'created';
+      var ascending = false;
+
+      function uid(){ return 'ORD-' + (crypto.randomUUID ? crypto.randomUUID().slice(0,6) : Date.now().toString(36).slice(-6)).toUpperCase(); }
+      function now(){ return new Date().toLocaleString('en-IN'); }
+      function getOrders(){ try{ return JSON.parse(localStorage.getItem('orders')||'[]'); }catch(e){ return [];} }
+      function getCart(){ try{ return JSON.parse(localStorage.getItem('cart')||'[]'); }catch(e){ return [];} }
+      function saveOrders(list){ localStorage.setItem('orders', JSON.stringify(list)); }
+
+      // Seed from draft (if coming from Order Now)
+      var draft = localStorage.getItem('order_draft');
+      if(draft){ try{ draft = JSON.parse(draft); }catch(e){ draft=null; }
+        if(draft && draft.product){ document.getElementById('of-product').value = draft.product; }
+        if(draft && draft.qty){ document.getElementById('of-qty').value = draft.qty; }
+        localStorage.removeItem('order_draft');
+      }
+
+      document.getElementById('order-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        var order = {
+          id: uid(),
+          name: document.getElementById('of-name').value.trim(),
+          phone: document.getElementById('of-phone').value.trim(),
+          product: document.getElementById('of-product').value.trim(),
+          qty: Number.parseInt(document.getElementById('of-qty').value,10)||1,
+          address: document.getElementById('of-address').value.trim(),
+          payment: document.getElementById('of-payment').value,
+          status: 'Pending',
+          created: now()
+        };
+        var orders = getOrders(); orders.unshift(order); saveOrders(orders);
+        this.reset();
+        alert('Order placed: ' + order.id);
+        render();
+      });
+
+      function render(){
+        renderCart();
+        var orders = getOrders();
+        var q = (document.getElementById('orders-search').value||'').toLowerCase();
+        if(q){ orders = orders.filter(function(o){ return (o.name + ' ' + o.product + ' ' + o.id).toLowerCase().includes(q); }); }
+        orders.sort(function(a,b){
+          var va = a[currentKey], vb = b[currentKey];
+          if(currentKey==='qty'){ va = Number(va); vb = Number(vb); }
+          if(va < vb) return ascending? -1: 1;
+          if(va > vb) return ascending? 1: -1;
+          return 0;
+        });
+        var tbody = document.querySelector('#orders-table tbody');
+        tbody.innerHTML = '';
+        orders.forEach(function(o, i){
+          var tr = document.createElement('tr');
+          tr.innerHTML = ''+
+            '<td>'+o.id+'</td>'+
+            '<td>'+o.name+'</td>'+
+            '<td>'+o.product+'</td>'+
+            '<td>'+o.qty+'</td>'+
+            '<td><span class="status '+o.status.toLowerCase()+'">'+o.status+'</span></td>'+
+            '<td>'+o.created+'</td>'+
+            '<td>'+
+              '<button class="btn small" data-act="confirm">Confirm</button> '+
+              '<button class="btn small" data-act="ship">Ship</button> '+
+              '<button class="btn small" data-act="delete" style="background:#b42318">Delete</button>'+
+            '</td>';
+          tbody.appendChild(tr);
+          tr.querySelector('[data-act="confirm"]').onclick = function(){ updateStatus(o.id, 'Confirmed'); };
+          tr.querySelector('[data-act="ship"]').onclick = function(){ updateStatus(o.id, 'Shipped'); };
+          tr.querySelector('[data-act="delete"]').onclick = function(){ removeOrder(o.id); };
+        });
+      }
+
+      function renderCart(){
+        var items = getCart();
+        var tbody = document.querySelector('#cart-table tbody');
+        var summary = document.getElementById('cart-summary');
+        tbody.innerHTML='';
+        var count = 0, total = 0;
+        items.forEach(function(it, idx){
+          var line = (it.qty||1) * (Number(it.price)||0);
+          count += (it.qty||1);
+          total += line;
+          var tr = document.createElement('tr');
+          tr.innerHTML = ''+
+            '<td>'+ (it.name||'Item') +'</td>'+
+            '<td>'+ (it.qty||1) +'</td>'+
+            '<td>₹'+ (Number(it.price)||0).toLocaleString('en-IN') +'</td>'+
+            '<td>₹'+ line.toLocaleString('en-IN') +'</td>'+
+            '<td><button class="btn small" data-idx="'+idx+'">Use</button></td>';
+          tbody.appendChild(tr);
+          tr.querySelector('button[data-idx]').onclick = function(){
+            // Fill order form with this cart item
+            document.getElementById('of-product').value = it.name || '';
+            document.getElementById('of-qty').value = it.qty || 1;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          };
+        });
+        summary.textContent = count + ' items • ₹' + total.toLocaleString('en-IN');
+      }
+
+      document.getElementById('cart-clear').addEventListener('click', function(){
+        localStorage.removeItem('cart');
+        renderCart();
+      });
+
+      function updateStatus(id, status){
+        var orders = getOrders();
+        var idx = orders.findIndex(function(o){ return o.id===id; });
+        if(idx>=0){ orders[idx].status = status; saveOrders(orders); render(); }
+      }
+      function removeOrder(id){
+        var orders = getOrders().filter(function(o){ return o.id!==id; });
+        saveOrders(orders); render();
+      }
+
+      document.getElementById('orders-search').addEventListener('input', render);
+      Array.prototype.forEach.call(document.querySelectorAll('#orders-table thead th[data-key]'), function(th){
+        th.addEventListener('click', function(){
+          var key = th.dataset.key;
+          if(key === currentKey){ ascending = !ascending; } else { currentKey = key; ascending = true; }
+          render();
+        });
+      });
+
+      render();
+    })();
+  </script>
+  <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        includedLanguages: "aa,ab,ae,af,ak,am,an,ar,as,av,ay,az,ba,be,bg,bh,bi,bm,bn,bo,br,bs,ca,ce,cs,cu,cv,cy,da,de,dv,dz,ee,el,en,eo,es,et,eu,fa,ff,fi,fj,fo,fr,fy,ga,gd,gl,gn,gu,gv,ha,he,hi,ho,hr,ht,hu,hy,hz,ia,id,ie,ig,ii,ik,io,is,it,iu,ja,jv,ka,kg,ki,kj,kk,kl,km,kn,ko,kr,ks,ku,kv,kw,ky,la,lb,lg,li,ln,lo,lt,lu,lv,mg,mh,mi,mk,ml,mn,mo,mr,ms,mt,my,na,nb,nd,ne,ng,nl,nn,no,nr,oc,oj,om,or,os,pa,pi,pl,ps,pt,qu,rm,rn,ro,ru,rw,sa,sc,sd,se,sg,sh,si,sk,sl,sm,sn,so,sq,sr,ss,st,sv,sw,ta,te,tg,th,ti,tk,tl,tn,to,tr,ts,tt,tw,ty,ug,uk,ur,uz,ve,vi,vo,wa,wo,xh,yi,yo,za,zh,zu'",
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      "google_translate_element"
+    );
+  }
+</script>
+   <script type="module">
+       import '../js/dev-config.js';
+       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+      createChat({
+        webhookUrl: window.SMART_FARM_DEV_CONFIG.n8nUrl('webhook/96703a83-b23d-4a2b-9476-fa62cffd91d5/chat')
+      });
+    </script>
+   <link href="../css/chat.css" rel="stylesheet" /> 
+     <script src="../js/script.js"></script>
+
+<script src="../js/app-navigation.js" defer></script>
+<script src="../js/site-language.js" defer></script>
+</body>
+</html>
+
+
