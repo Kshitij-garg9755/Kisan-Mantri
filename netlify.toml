@@ -1,0 +1,28 @@
+[build]
+  command = "npm run build:auth"
+  publish = "frontend"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://kisan-mantri.onrender.com/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/uploads/*"
+  to = "https://kisan-mantri.onrender.com/uploads/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/send_otp"
+  to = "https://kisan-mantri.onrender.com/send_otp"
+  status = 200
+
+[[redirects]]
+  from = "/verify_otp"
+  to = "https://kisan-mantri.onrender.com/verify_otp"
+  status = 200
+
+[[redirects]]
+  from = "/agriverse"
+  to = "https://kisan-mantri.onrender.com/agriverse"
+  status = 200

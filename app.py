@@ -1,5 +1,6 @@
 from flask import Flask, send_from_directory, render_template_string, request, jsonify, session
 import os
+import re
 from dotenv import load_dotenv
 import requests
 import random
@@ -12,6 +13,7 @@ import hashlib
 import firebase_admin
 from firebase_admin import auth as firebase_admin_auth, credentials as firebase_admin_credentials
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 from backend.marketplace.routes import marketplace_blueprint
 from backend.marketplace.services.validation import MARKETPLACE_STATUSES, parse_product
 from backend.features.models import init_feature_db
@@ -22,6 +24,11 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 FRONTEND_FOLDER = os.path.join(os.path.dirname(__file__), 'frontend')
 app = Flask(__name__, static_folder=FRONTEND_FOLDER, static_url_path='/_frontend')
 app.secret_key = os.environ.get('SMART_FARM_SECRET_KEY', 'smart-farm-local-development-key')
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SECURE=os.environ.get('SMART_FARM_SESSION_COOKIE_SECURE', '').strip().lower() in {'1', 'true', 'yes', 'on'},
+    SESSION_COOKIE_SAMESITE=os.environ.get('SMART_FARM_SESSION_COOKIE_SAMESITE', 'Lax'),
+)
 app.register_blueprint(marketplace_blueprint)
 app.register_blueprint(features_blueprint)
 
@@ -108,9 +115,10 @@ def init_community_db():
     with get_db() as db:
         db.executescript('''
             CREATE TABLE IF NOT EXISTS farmers (
-                id TEXT PRIMARY KEY, name TEXT NOT NULL, phone TEXT UNIQUE NOT NULL,
+                id TEXT PRIMARY KEY, name TEXT NOT NULL, phone TEXT UNIQUE,
                 username TEXT UNIQUE NOT NULL, bio TEXT NOT NULL DEFAULT '',
-                photo_url TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                photo_url TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                email TEXT UNIQUE, password_hash TEXT
             );
             CREATE TABLE IF NOT EXISTS posts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, farmer_id TEXT NOT NULL,
@@ -242,11 +250,36 @@ def init_community_db():
         for column, definition in (
             ('role', "TEXT NOT NULL DEFAULT 'buyer'"),
             ('blocked', 'INTEGER NOT NULL DEFAULT 0'),
+            ('email', 'TEXT'),
+            ('password_hash', 'TEXT'),
         ):
             try:
                 db.execute(f'ALTER TABLE farmers ADD COLUMN {column} {definition}')
             except sqlite3.OperationalError:
                 pass
+
+        # Older databases required a phone number for every farmer. Email accounts
+        # don't have one, so rebuild that table once with a nullable phone column.
+        farmer_columns = {row['name']: row for row in db.execute('PRAGMA table_info(farmers)')}
+        if farmer_columns.get('phone') and farmer_columns['phone']['notnull']:
+            db.commit()
+            db.execute('PRAGMA foreign_keys = OFF')
+            db.execute('BEGIN IMMEDIATE')
+            db.execute('''CREATE TABLE farmers_new (
+                id TEXT PRIMARY KEY, name TEXT NOT NULL, phone TEXT UNIQUE,
+                username TEXT UNIQUE NOT NULL, bio TEXT NOT NULL DEFAULT '',
+                photo_url TEXT NOT NULL DEFAULT '', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                role TEXT NOT NULL DEFAULT 'buyer', blocked INTEGER NOT NULL DEFAULT 0,
+                email TEXT UNIQUE, password_hash TEXT
+            )''')
+            db.execute('''INSERT INTO farmers_new
+                (id, name, phone, username, bio, photo_url, created_at, role, blocked, email, password_hash)
+                SELECT id, name, phone, username, bio, photo_url, created_at, role, blocked, email, password_hash
+                FROM farmers''')
+            db.execute('DROP TABLE farmers')
+            db.execute('ALTER TABLE farmers_new RENAME TO farmers')
+            db.commit()
+            db.execute('PRAGMA foreign_keys = ON')
 
 init_community_db()
 
@@ -297,7 +330,8 @@ def farmer_payload(row):
     return {
         'id': row['id'], 'name': row['name'], 'username': row['username'],
         'bio': row['bio'], 'photo_url': row['photo_url'], 'role': row['role'] if 'role' in row.keys() else 'buyer',
-        'blocked': bool(row['blocked']) if 'blocked' in row.keys() else False
+        'blocked': bool(row['blocked']) if 'blocked' in row.keys() else False,
+        'email': row['email'] if 'email' in row.keys() else None,
     }
 
 def post_payload(db, post, viewer_id=None):
@@ -352,14 +386,53 @@ def login_or_create_farmer(name, phone):
 @app.post('/api/auth/login')
 def auth_login():
     data = request.get_json(silent=True) or {}
-    name = (data.get('name') or '').strip()
-    phone = normalize_indian_phone(data.get('phone'))
-    verified_phone = session.pop('verified_phone', None)
-    if not name or not phone:
-        return jsonify({'error': 'name_and_phone_required'}), 400
-    if verified_phone != phone:
-        return jsonify({'error': 'phone_verification_required'}), 403
-    return login_or_create_farmer(name, phone)
+    email = (data.get('email') or '').strip().lower()
+    password = data.get('password') or ''
+    if not re.fullmatch(r'[a-z0-9._%+-]+@gmail\.com', email) or len(email) > 254 or not password or len(password) > 256:
+        return jsonify({'error': 'Enter your Gmail address and password.'}), 400
+    with get_db() as db:
+        farmer = db.execute('SELECT * FROM farmers WHERE email = ?', (email,)).fetchone()
+    if not farmer or not farmer['password_hash'] or not check_password_hash(farmer['password_hash'], password):
+        return jsonify({'error': 'Gmail or password is incorrect.'}), 401
+    if farmer['blocked']:
+        return jsonify({'error': 'This account is not available.'}), 403
+    session.clear()
+    session['farmer_id'] = farmer['id']
+    return jsonify({'success': True, 'farmer': farmer_payload(farmer)})
+
+
+@app.post('/api/auth/register')
+def auth_register():
+    data = request.get_json(silent=True) or {}
+    name = ' '.join(str(data.get('name') or '').split())
+    email = (data.get('email') or '').strip().lower()
+    password = data.get('password') or ''
+    if not name or len(name) > 120:
+        return jsonify({'error': 'Enter your name (up to 120 characters).'}), 400
+    if not re.fullmatch(r'[a-z0-9._%+-]+@gmail\.com', email) or len(email) > 254:
+        return jsonify({'error': 'Please enter a valid Gmail address.'}), 400
+    if len(password) < 8 or len(password) > 256:
+        return jsonify({'error': 'Password must be between 8 and 256 characters.'}), 400
+    with get_db() as db:
+        if db.execute('SELECT 1 FROM farmers WHERE email = ?', (email,)).fetchone():
+            return jsonify({'error': 'An account with this Gmail already exists. Please log in.'}), 409
+        username_base = ''.join(ch.lower() if ch.isalnum() else '_' for ch in name).strip('_') or 'farmer'
+        username = username_base
+        suffix = 1
+        while db.execute('SELECT 1 FROM farmers WHERE username = ?', (username,)).fetchone():
+            suffix += 1
+            username = f'{username_base}_{suffix}'
+        farmer_id = secrets.token_urlsafe(16)
+        try:
+            db.execute('''INSERT INTO farmers (id, name, phone, username, email, password_hash)
+                VALUES (?, ?, NULL, ?, ?, ?)''',
+                (farmer_id, name, username, email, generate_password_hash(password)))
+        except sqlite3.IntegrityError:
+            return jsonify({'error': 'Could not create the account. Please try again.'}), 409
+        farmer = db.execute('SELECT * FROM farmers WHERE id = ?', (farmer_id,)).fetchone()
+    session.clear()
+    session['farmer_id'] = farmer_id
+    return jsonify({'success': True, 'farmer': farmer_payload(farmer)}), 201
 
 
 @app.route('/api/auth/profile-photo', methods=['POST', 'DELETE'])

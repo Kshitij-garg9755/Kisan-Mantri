@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Farmer Login - Smart Farm</title>
+  <title>Farmer Account - Smart Farm</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/app-theme.css">
   <style>
     body { background: #f4f1e8; min-height: 100vh; }
     .login-shell { min-height: 100vh; display: grid; grid-template-columns: 1.05fr .95fr; }
@@ -19,64 +21,58 @@
     h2 { color: #14231d; font-family: 'Playfair Display', serif; font-size: 42px; line-height: 1; letter-spacing: -.03em; margin: 0 0 10px; }
     .login-intro { color: #6f7b72; margin: 0 0 28px; font-size: 14px; }
     .field { margin-bottom: 18px; display: flex; flex-direction: column; }
+    .field[hidden] { display: none; }
     label { color: #22734c; margin-bottom: 7px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
     input { width: 100%; padding: 14px; border: 1px solid #d7ddd2; border-radius: 2px; background: #f4f1e8; font: inherit; outline: none; }
     input:focus { border-color: #22734c; background: #fff; }
-    button { width: 100%; padding: 14px; border: 0; border-radius: 2px; background: #c9f15c; color: #14231d; font: inherit; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
-    button:hover { background: #e0ff84; }
+    button[type="submit"] { width: 100%; padding: 14px; border: 0; border-radius: 2px; background: #c9f15c; color: #14231d; font: inherit; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    button[type="submit"]:hover { background: #e0ff84; }
+    button:disabled { opacity: .65; cursor: wait; }
     .msg { min-height: 24px; margin-top: 16px; color: #22734c; font-size: 13px; font-weight: 700; }
-    #recaptcha-container { margin: 12px 0 18px; }
-    #login-btn:disabled { opacity: .65; cursor: wait; }
-        @media (max-width: 760px) { .login-shell { grid-template-columns: 1fr; } .login-story { min-height: 330px; padding: 30px 24px; } .login-story h1 { font-size: 56px; } .login-panel { padding: 24px 18px 40px; } }
-     </style>
-     <link rel="stylesheet" href="../css/theme.css">
-    
-<link rel="stylesheet" href="../css/app-theme.css">
+    .auth-switch { margin: 20px 0 0; text-align: center; color: #6f7b72; font-size: 13px; }
+    #switch-mode { padding: 0; border: 0; background: none; color: #22734c; font: inherit; font-weight: 700; cursor: pointer; }
+    @media (max-width: 760px) { .login-shell { grid-template-columns: 1fr; } .login-story { min-height: 330px; padding: 30px 24px; } .login-story h1 { font-size: 56px; } .login-panel { padding: 24px 18px 40px; } }
+  </style>
 </head>
 <body>
   <main class="login-shell">
-  <section class="login-story">
-    <div class="login-brand">SMART FARM / 01</div>
-    <div>
-      <h1>Know your<br>ground.</h1>
-      <p>A calmer way to connect with fresh produce, useful farm intelligence, and the people growing it.</p>
-    </div>
-    <div class="login-note">Built for growers, buyers, and better harvests.</div>
-  </section>
-  <section class="login-panel">
-  <div class="login-container">
-    <h2>Welcome in.</h2>
-    <p class="login-intro">Sign in with your mobile number to continue to Smart Farm.</p>
-    <form id="login-form">
-      <div class="field">
-        <label for="name">Name</label>
-        <input type="text" id="name" required placeholder="Enter your name" />
+    <section class="login-story">
+      <div class="login-brand">SMART FARM / 01</div>
+      <div>
+        <h1>Know your<br>ground.</h1>
+        <p>A calmer way to connect with fresh produce, useful farm intelligence, and the people growing it.</p>
       </div>
-      <div class="field">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" />
+      <div class="login-note">Built for growers, buyers, and better harvests.</div>
+    </section>
+    <section class="login-panel">
+      <div class="login-container">
+        <h2 id="form-title">Farmer sign up.</h2>
+        <p class="login-intro" id="form-intro">Create your farmer account with your name and Gmail.</p>
+        <form id="login-form">
+          <div class="field" id="name-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" required maxlength="120" autocomplete="name" placeholder="Enter your name" />
+          </div>
+          <div class="field">
+            <label for="email">Gmail</label>
+            <input type="email" id="email" required autocomplete="email" placeholder="you@gmail.com" />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters" />
+          </div>
+          <button type="submit" id="login-btn">Create account</button>
+          <div class="msg" id="msg" role="status" aria-live="polite"></div>
+          <p class="auth-switch"><span id="switch-prompt">Already have an account?</span> <button type="button" id="switch-mode">Log in</button></p>
+          <div style="margin-top:20px; text-align:center;">
+            <a href="../pages/index.html" style="color:#6f7b72; font-size:13px; text-decoration:none; font-weight:600;">← Back to Home</a>
+          </div>
+        </form>
       </div>
-      <div class="field" id="otp-field" style="display:none;">
-        <label for="otp">OTP (Verification Code)</label>
-        <input type="text" id="otp" maxlength="6" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP" />
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:12px;">
-          <a href="#" id="change-phone-btn" style="color:#22734c; font-weight:600; text-decoration:none;">← Change Number</a>
-          <a href="#" id="resend-otp-btn" style="color:#22734c; font-weight:600; text-decoration:none;">Resend OTP</a>
-        </div>
-      </div>
-      <div id="recaptcha-container"></div>
-      <button type="submit" id="login-btn">Send OTP</button>
-      <div class="msg" id="msg"></div>
-      <div style="margin-top:20px; text-align:center;">
-        <a href="../pages/index.html" style="color:#6f7b72; font-size:13px; text-decoration:none; font-weight:600;">← Back to Home</a>
-      </div>
-    </form>
-  </div>
-  </section>
+    </section>
   </main>
   <script type="module" src="../js/login-auth.bundle.js"></script>
-
-<script src="../js/app-navigation.js" defer></script>
-<script src="../js/site-language.js" defer></script>
+  <script src="../js/app-navigation.js" defer></script>
+  <script src="../js/site-language.js" defer></script>
 </body>
 </html>
