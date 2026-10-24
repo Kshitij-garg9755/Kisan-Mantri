@@ -1,6 +1,6 @@
 # Firebase phone OTP and Android publishing
 
-The Android app uses Firebase's native phone authentication. The browser uses Firebase phone auth with reCAPTCHA. Flask verifies Firebase ID tokens before creating the app's login session.
+The native Android app can use Firebase phone authentication. The production browser app now uses Gmail/password authentication through Netlify Functions; Firebase phone login is not enabled in that backend. The older Flask local-development server still contains its Firebase phone flow.
 
 ## Firebase project
 
@@ -17,7 +17,7 @@ The Android app uses Firebase's native phone authentication. The browser uses Fi
 
 ## Phone app and release
 
-The app needs a public HTTPS URL for the Flask API. A PC LAN address only works while that server is running and reachable on the same network; it is not a production URL. Set `CAPACITOR_SERVER_URL` to the deployed app's HTTPS URL before building the store version.
+For the browser app, use the Netlify site's public HTTPS URL. Netlify serves the static frontend and runs its API Functions, so the laptop does not need to stay on. Set `CAPACITOR_SERVER_URL` to the Netlify site's HTTPS URL before building the store version. A PC LAN address is only for local Flask development and requires that PC to remain running and reachable.
 
 ```powershell
 pip install -r requirements.txt

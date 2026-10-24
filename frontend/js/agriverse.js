@@ -401,7 +401,38 @@
     var file = document.getElementById('video').files[0];
     var request;
     if (kind === 'post') { request = fetch('/api/agriverse/posts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: kind, caption: document.getElementById('caption').value }) }); }
-    else { if (!file) { message.textContent = 'Choose a video before publishing.'; return; } var form = new FormData(); form.append('kind', kind); form.append('video', file); ['caption', 'title', 'description', 'crop', 'category', 'language', 'tags'].forEach(function (id) { form.append(id, document.getElementById(id).value); }); request = fetch('/api/agriverse/upload', { method: 'POST', body: form }); }
+    else {
+      if (!file) { message.textContent = 'Choose a video before publishing.'; return; }
+      if (file.size > 100 * 1024 * 1024) { message.textContent = 'Choose a video smaller than 100 MB.'; return; }
+      var uploadId = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : String(Date.now()) + '_' + Math.random().toString(36).slice(2);
+      var chunkSize = 3 * 1024 * 1024;
+      var totalParts = Math.ceil(file.size / chunkSize);
+      var fields = ['caption', 'title', 'description', 'crop', 'category', 'language', 'tags'];
+      request = (async function () {
+        for (var partIndex = 0; partIndex < totalParts; partIndex++) {
+          var partForm = new FormData();
+          partForm.append('kind', kind);
+          partForm.append('upload_action', 'chunk');
+          partForm.append('upload_id', uploadId);
+          partForm.append('part_index', String(partIndex));
+          partForm.append('total_parts', String(totalParts));
+          partForm.append('video', file.slice(partIndex * chunkSize, Math.min(file.size, (partIndex + 1) * chunkSize)), file.name + '.part');
+          var partResponse = await fetch('/api/agriverse/upload', { method: 'POST', body: partForm });
+          var partData = await partResponse.json().catch(function () { return {}; });
+          if (!partResponse.ok) throw new Error(partData.error || 'Video upload failed.');
+          message.textContent = 'Uploading video: ' + Math.round(((partIndex + 1) / totalParts) * 100) + '%';
+        }
+        var finishForm = new FormData();
+        finishForm.append('kind', kind);
+        finishForm.append('upload_action', 'finalize');
+        finishForm.append('upload_id', uploadId);
+        finishForm.append('total_parts', String(totalParts));
+        finishForm.append('file_name', file.name);
+        finishForm.append('content_type', file.type || 'video/mp4');
+        fields.forEach(function (id) { finishForm.append(id, document.getElementById(id).value); });
+        return fetch('/api/agriverse/upload', { method: 'POST', body: finishForm });
+      }());
+    }
     message.textContent = 'Saving your work...'; request.then(function (response) { return response.json().then(function (data) { if (!response.ok) throw new Error(data.error); return data; }); }).then(function () { message.textContent = 'Published successfully.'; document.getElementById('create-form').reset(); load(); }).catch(function (error) { message.textContent = 'Could not publish: ' + error.message; });
   });
   
